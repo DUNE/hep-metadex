@@ -1,4 +1,4 @@
-# ProtoDUNE on HEP-DEX
+# ProtoDUNE on HEP-METADEX
 
 For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
