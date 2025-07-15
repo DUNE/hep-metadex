@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://dune.github.io/hep-metadex/</loc>
+         <lastmod>2025-07-15</lastmod>
+    </url>
+    <url>
+         <loc>https://dune.github.io/hep-metadex/DUNE/</loc>
+         <lastmod>2025-07-15</lastmod>
+    </url>
+    <url>
+         <loc>https://dune.github.io/hep-metadex/ProtoDUNE/</loc>
+         <lastmod>2025-07-15</lastmod>
+    </url>
+    <url>
+         <loc>https://dune.github.io/hep-metadex/ProtoDUNE/architecture/event-storming/</loc>
+         <lastmod>2025-07-15</lastmod>
+    </url>
+</urlset>
