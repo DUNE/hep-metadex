@@ -1,7 +1,7 @@
 [project]
 name = "hep-metadex"
 version = "0.1.0"
-description = "High-Energy Physics Metadata Exchange (HEP-METADEX)"
+description = "High Energy Physics Metadata Exchange (HEP-METADEX)"
 readme = "README.md"
 requires-python = ">=3.13.5"
 dependencies = [
@@ -16,6 +16,8 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "mkdocs-git-authors-plugin>=0.10.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.4.7",
     "mkdocs-glightbox>=0.4.0",
     "mkdocs-material>=9.6.15",
     "mkdocs-monorepo-plugin>=1.1.2",

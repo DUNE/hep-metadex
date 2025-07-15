@@ -1,4 +1,4 @@
-# High-Energy Physics Metadata Exchange (HEP-METADEX)
+# High Energy Physics Metadata Exchange (HEP-METADEX)
 
 ## Frameworks, Libraries, Infrastructure, and Tools Used in the Project
 

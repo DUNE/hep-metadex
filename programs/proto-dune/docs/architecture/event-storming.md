@@ -1,6 +1,6 @@
 # Event Storming: Metadata Management
 
-[Event storming](https://www.eventstorming.com/) is a collaborative technique used for domain discovery. It is typically conducted in a workshop setting and allows the stakeholders of a given domain to build a high-level model of its systems and related processes. While many concepts from [Domain-Driven Design](https://github.com/ddd-crew/welcome-to-ddd) are used in event storming, it is not strictly a DDD focused technique.
+[Event storming](https://www.eventstorming.com/) is a collaborative technique used for domain discovery. It is typically conducted in a workshop setting and allows the stakeholders of a given domain to build a high-level model of its systems and related processes. While many concepts from [Domain-Driven Design](https://github.com/ddd-crew/welcome-to-ddd) are used in event storming, it is not a strictly DDD focused technique.
 
 Most of the online resources related to event storming will show examples that are business domain oriented. We have taken the basic concepts from event storming and modified them to model the systems and processes involved in ProtoDUNE metadata management.
 

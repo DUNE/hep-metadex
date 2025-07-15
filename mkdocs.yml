@@ -1,13 +1,16 @@
 site_name: "HEP-METADEX: High Energy Physics Metadata Exchange"
-# repo_url:
-# repo_name:
-
-# site_url: https://mydomain.org/mysite
+site_url: https://dune.github.io/hep-metadex/
+repo_url: https://github.com/DUNE/hep-metadex
+# repo_name: DUNE/hep-metadex
 
 extra_css:
   - stylesheets/extra.css
 
 theme:
+  features:
+    - content.action.view
+    - navigation.footer
+
   icon:
     admonition:
       diagram: fontawesome/solid/diagram-project
@@ -38,6 +41,9 @@ markdown_extensions:
   - tables
 
 plugins:
+  - git-authors
+  - git-revision-date-localized:
+      enable_creation_date: true
   - glightbox
   - monorepo
   - search
