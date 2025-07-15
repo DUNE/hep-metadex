@@ -1,4 +1,4 @@
-# Welcome to HEP-METADEX
+# DUNE on HEP-DEX
 
 For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 

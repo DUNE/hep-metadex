@@ -1,0 +1,52 @@
+li>.list-colors {
+    background-color: var(--md-primary-fg-color);
+    color: var(--md-primary-bg-color);
+}
+
+.md-typeset .diagram>.admonition-title::before,
+.md-typeset .diagram>summary::before {
+    -webkit-mask-image: var(--md-admonition-icon--diagram);
+    mask-image: var(--md-admonition-icon--diagram);
+}
+
+td>.table-colors {
+    background-color: var(--md-primary-fg-color);
+    color: #000000;
+    font-size: small;
+    display: block;
+}
+
+td>.table-colors-black {
+    background-color: #000000;
+    color: #FFFFFF;
+    font-size: small;
+    display: block;
+}
+
+td>.table-colors-light-grey {
+    background-color: #E6E6E6;
+    color: #000000;
+    font-size: small;
+    display: block;
+}
+
+td>.table-colors-light-pink {
+    background-color: #FF9999;
+    color: #000000;
+    font-size: small;
+    display: block;
+}
+
+td>.table-colors-light-yellow {
+    background-color: #FFFF99;
+    color: #000000;
+    font-size: small;
+    display: block;
+}
+
+td>.table-colors-orange {
+    background-color: #FF9932;
+    color: #000000;
+    font-size: small;
+    display: block;
+}
