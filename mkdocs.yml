@@ -1,1 +1,43 @@
-site_name: My Docs
+site_name: "HEP-METADEX: High Energy Physics Metadata Exchange"
+# repo_url:
+# repo_name:
+
+# site_url: https://mydomain.org/mysite
+
+extra_css:
+  - stylesheets/extra.css
+
+theme:
+  icon:
+    admonition:
+      diagram: fontawesome/solid/diagram-project
+
+    logo: material/hub-outline
+
+    repo: fontawesome/brands/github
+
+  name: material
+
+  palette:
+    scheme: slate
+
+nav:
+  - Home: "index.md"
+  - Research Programs: "*include ./programs/*/mkdocs.yml"
+  # - Research Programs:
+  #     - DUNE: "!include ./programs/dune/mkdocs.yml"
+  #     - ProtoDUNE: "!include ./programs/proto-dune/mkdocs.yml"
+  # - v3: "!include ./v3/mkdocs.yml"
+
+markdown_extensions:
+  - attr_list
+  - admonition
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences
+  - tables
+
+plugins:
+  - glightbox
+  - monorepo
+  - search
