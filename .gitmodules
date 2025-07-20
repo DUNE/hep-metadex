@@ -1,0 +1,3 @@
+[submodule "programs/protodune-metadex"]
+	path = programs/protodune-metadex
+	url = https://github.com/DUNE/protodune-metadex.git
