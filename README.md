@@ -44,9 +44,12 @@
 - Install `Material for MkDocs`: `$ uv add --dev mkdocs-material`
 - Install the `mkdocs-monorepo-plugin` plugin: `$ uv add --dev mkdocs-monorepo-plugin`
 - Install the `mkdocs-glightbox` plugin: `$ uv add --dev mkdocs-glightbox`
+- Install the `mkdocs-git-authors-plugin` plugin: `$ uv add --dev mkdocs-git-authors-plugin`
+- Install the `mkdocs-git-revision-date-localized-plugin` plugin: `$ uv add --dev mkdocs-git-revision-date-localized-plugin`
 - Sync the Python environment to get the updated packages: `$ uv sync`
 - Activate the environment: `$ source .venv/bin/activate`
 - Bootstrap the docs: `$ mkdocs new .`
+- Follow the instructions for ["Publishing your site"](https://squidfunk.github.io/mkdocs-material/publishing-your-site/) on GitHub Pages.
 
 ### FastAPI
 
