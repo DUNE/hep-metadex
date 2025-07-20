@@ -1,6 +1,0 @@
-site_name: ProtoDUNE
-
-nav:
-  - Introduction: "index.md"
-  - Architecture:
-    - Event Storming: "architecture/event-storming.md"
