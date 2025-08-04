@@ -21,6 +21,7 @@ dev = [
     "mkdocs-glightbox>=0.4.0",
     "mkdocs-material>=9.6.15",
     "mkdocs-monorepo-plugin>=1.1.2",
+    "mkdocstrings-python>=1.16.12",
     "pytest>=8.4.1",
     "ruff>=0.12.3",
     "ty>=0.0.1a14",
