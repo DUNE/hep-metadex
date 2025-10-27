@@ -3,6 +3,7 @@ __pycache__/
 *.py[oc]
 build/
 dist/
+docs/notes/
 wheels/
 *.egg-info
 
@@ -14,3 +15,6 @@ wheels/
 
 # MkDocs
 site
+
+# SQLite db files
+*.db
