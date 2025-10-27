@@ -27,5 +27,5 @@ jobs:
           path: ~/.cache
           restore-keys: |
             mkdocs-material-
-      - run: pip install mkdocs-material mkdocs-git-authors-plugin mkdocs-git-revision-date-localized-plugin mkdocs-glightbox mkdocs-monorepo-plugin
+      - run: pip install mkdocs-material mkdocs-git-authors-plugin mkdocs-git-revision-date-localized-plugin mkdocs-glightbox mkdocs-monorepo-plugin mkdocstrings-python
       - run: mkdocs gh-deploy --force
