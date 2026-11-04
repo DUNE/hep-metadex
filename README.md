@@ -42,7 +42,8 @@ Notes:
   `.agents/skills/`.
 - The first `tasks` implementation requires choosing an acceptance runner —
   cucumber-js (JavaScript) or behave (Python) — via the
-  `acceptance-test-authoring` skill.
+  `acceptance-test-authoring` skill. The choice is recorded as `stack:` in
+  `openspec/config.yaml`, which the skill reads before scaffolding anything.
 - To lighten any stage, comment out the corresponding rule line in
   `openspec/config.yaml`.
 
@@ -61,6 +62,23 @@ Notes:
 | `/opsx-archive` | Archive a completed change |
 | `/opsx-bulk-apply` | Apply multiple active changes concurrently in worktrees |
 | `/opsx-bulk-archive` | Archive multiple completed changes |
+
+### Writing Intent Prompts
+
+Intents name the actor who receives the value — end users, platform
+engineers, architects — plus verifiable rules. See
+[docs/intent-prompt-guidelines.md](docs/intent-prompt-guidelines.md) for the
+template, worked examples for non-end-user actors, and when Gherkin
+acceptance tests fit:
+
+```text
+/opsx-new Allow <actor> to <capability>.
+
+Actor: <who they are and what boundary they operate at>
+Rules:
+- <observable invariants, SHALL/MUST phrasing>
+Out of scope: <what not to build>
+```
 
 ### Configuration
 
@@ -109,6 +127,7 @@ manifest when syncing with the template:
 | `openspec/schemas/intent-driven/templates/spec.md` | "business rule" placeholders changed to "domain rule" | This is a high-energy physics domain, not a business domain; the local schema copy is the designated customization point |
 | `.agents/skills/glossary/` | `glossary/business.md` convention renamed to `glossary/domain.md` (SKILL.md, README.md) | HEP domain terms should not be filed under a "business" label; **this is a fork of a vendored skill** |
 | `.gitignore` | Minimal local file (template ships a broader one) | Only `openspec/.cache/` is needed so far |
+| `AGENTS.md` | Added a pointer to `docs/intent-prompt-guidelines.md` for intent-prompt authoring | Project-specific contributor guidance; re-apply the pointer after a template sync |
 | Not installed | `package.json`, `package-lock.json`, `skills-lock.json`, `LICENSE.md`, `.github/` | Outside the install guide's file list; do not add during a sync without a deliberate decision |
 
 ### Drift Impact
