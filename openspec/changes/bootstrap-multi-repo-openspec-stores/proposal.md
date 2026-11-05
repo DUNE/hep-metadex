@@ -10,7 +10,7 @@ hep-metadex exists to be the general-purpose reference for building experiment m
 - **Licensing:** an Apache-2.0 `LICENSE` is added — a deliberate divergence from the intent-driven template's MIT, recorded in the README divergence manifest (closes the HSF checklist license item).
 - **Spec-validation CI:** a GitHub Actions workflow runs `openspec validate` over all specs and changes and fails when validation reports any artifact invalid — the test-suite interpretation for a zero-runtime-code repository (closes the HSF checklist test-suite item).
 - **Hosting decision (ADR):** recorded as an ADR in this change: the DUNE organization incubates the **OpenSpec Store**; HSF Steering Group endorsement triggers **HSF affiliation**; hosting in the HSF GitHub organization is a separate, optional, mutually-agreed follow-on.
-- **Out of scope:** the first **common capability** spec (the follow-up change that will propose one to the **OpenSpec Store**), experiment implementation code, EIC and sPHENIX repositories, the HSF affiliation application itself, and any HSF-org hosting move.
+- **Out of scope:** the first **common capability** spec (the follow-up change that will propose one to the **OpenSpec Store**), a reusable `/metadex-bootstrap` command (a follow-up change once the manual bootstrap procedure is dogfooded via dune-metadex), experiment implementation code, EIC and sPHENIX repositories, the HSF affiliation application itself, and any HSF-org hosting move.
 
 ## Capabilities
 
