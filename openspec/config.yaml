@@ -2,7 +2,7 @@ schema: intent-driven
 
 context: |
   Tech stack: TBD
-  We use conventional commits
+  We use conventional commits; every commit references its change's issue number as a (#N) subject suffix; Closes #N appears only in the archive-phase commit
   Domain: experimental high-energy physics metadata management platform
 
   Use senior-dev sub-agent for all src related work and senior-qa for acceptance tests.
