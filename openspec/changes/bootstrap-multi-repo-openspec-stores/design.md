@@ -63,7 +63,7 @@ For a zero-runtime repository, a GitHub Actions workflow running `openspec valid
 
 ### D7: Documentation architecture — adopter front door, org-agnostic throughout
 
-README becomes the adopter quick start; maintainer content (template provenance, divergence manifest, update-from-upstream) is absorbed into `docs/`, never deleted. Governance and contribution text names no organization, so the HSF hosting move is purely infrastructure.
+README becomes the adopter quick start; maintainer content (template provenance, divergence manifest, update-from-upstream) is absorbed into `docs/`, never deleted. Governance and contribution text names no organization, so the HSF hosting move is purely infrastructure. The README links stable paths only — a repository-map section pointing at directories and stable filenames (`docs/`, `CONTRIBUTING.md`, `adr/`, `glossary/`, `openspec/specs/`, `openspec/changes/`); per-artifact deep links live in the docs where they carry context (governance → ADR-0002; hsf-affiliation → ADR-0004 and ADR-0001; usage → one archived change as a worked example), so the README never churns as artifacts accumulate.
 
 ```mermaid
 flowchart LR

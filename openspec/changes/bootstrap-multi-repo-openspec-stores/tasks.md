@@ -35,11 +35,11 @@
 
 ## 4. Adopter documentation (hep-metadex)
 
-- [ ] 4.1 Rewrite the README as the adopter front door: what/why and the quick start (scaffolding install, store registration, `references:` declaration, doctor green); move template provenance, the divergence manifest, and update-from-upstream guidance into a maintainer document under `docs/` that the README links
-- [ ] 4.2 Write `docs/setup.md`: OpenSpec Store layout, experiment repository configuration, the two-channel architecture (specs via store, workflow scaffolding via template install)
-- [ ] 4.3 Write `docs/usage.md`: change-time work and write-back flows, store pull discipline, CLI version pinning and upgrade guidance, and the validator-warning known-issue note (ADR-0003)
-- [ ] 4.4 Write `docs/governance.md`: decision rights, review bar, and the org-neutral hosting roadmap per ADR-0002 (DUNE incubation, HSF endorsement trigger, HSF-org hosting as a separate follow-on)
-- [ ] 4.5 Write `docs/hsf-affiliation.md`: the full required-guideline checklist mapping (public repository, suitable name, license, installation, documentation, test suite, contributor openness, issue tracking, general information) with license → `LICENSE` and test suite → spec-validation CI
+- [ ] 4.1 Rewrite the README as the adopter front door: what/why and the quick start (scaffolding install, store registration, `references:` declaration, doctor green); include a repository-map section linking stable paths only — directories and stable filenames (`docs/`, `CONTRIBUTING.md`, `adr/`, `glossary/`, `openspec/specs/`, `openspec/changes/` with its `archive/`) — never per-artifact deep links that churn as artifacts accumulate; move template provenance, the divergence manifest, and update-from-upstream guidance into a maintainer document under `docs/` that the README links
+- [ ] 4.2 Write `docs/setup.md`: OpenSpec Store layout, experiment repository configuration, the two-channel architecture (specs via store, workflow scaffolding via template install), linking `glossary/` terms on first use
+- [ ] 4.3 Write `docs/usage.md`: change-time work and write-back flows, store pull discipline, CLI version pinning and upgrade guidance, and the validator-warning known-issue note (ADR-0003); once the first change archives, deep-link it as a worked example of what a change looks like here
+- [ ] 4.4 Write `docs/governance.md`: decision rights, review bar, and the org-neutral hosting roadmap per ADR-0002 (DUNE incubation, HSF endorsement trigger, HSF-org hosting as a separate follow-on), linking ADR-0002
+- [ ] 4.5 Write `docs/hsf-affiliation.md`: the full required-guideline checklist mapping (public repository, suitable name, license, installation, documentation, test suite, contributor openness, issue tracking, general information) with license → `LICENSE` and test suite → spec-validation CI, linking ADR-0004 and ADR-0001 (the applicability-beyond-one-experiment evidence)
 - [ ] 4.6 Write `CONTRIBUTING.md`: org-agnostic contribution policy — pull requests, issue tracker, conventional commits, glossary discipline
 - [ ] 4.7 Dogfood-verify the quick start: confirm the README's steps match the bootstrap actually performed on dune-metadex in group 3, and that `docs/usage.md` describes the write-back command verified in task 3.10
 
