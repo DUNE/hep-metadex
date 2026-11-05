@@ -20,7 +20,7 @@ Then no governance or contribution text needs editing as a result of the move
 
 ```gherkin
 Given docs/governance.md as delivered by this change
-When a reader looks for where the store is hosted and what would change that
+When a reader looks for where the OpenSpec store is hosted and what would change that
 Then the document names the incubating organization and the endorsement trigger
 And presents HSF-organization hosting as a distinct follow-on decision
 ```

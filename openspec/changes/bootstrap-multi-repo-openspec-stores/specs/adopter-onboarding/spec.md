@@ -3,26 +3,26 @@
 ## ADDED Requirements
 
 ### Requirement: Quick start from a fresh repository
-The README SHALL provide an adopter-facing quick start that takes a newcomer from a fresh **experiment repository** to a connected one — **scaffolding** installed, **Reference** declared, doctor green — without requiring any other document.
+The README SHALL provide an adopter-facing quick start that takes a newcomer from a fresh **experiment repository** to a connected one — **workflow scaffolding** installed, **Store reference** declared, doctor green — without requiring any other document.
 
 #### Scenario: A stranger bootstraps an experiment repository
 
 ```gherkin
 Given a newcomer with a fresh experiment repository and a machine with git and the OpenSpec CLI
 When the newcomer follows the README quick start
-Then the repository contains the installed scaffolding and an openspec config declaring the hep-metadex reference
+Then the repository contains the installed workflow scaffolding and an openspec config declaring the hep-metadex store reference
 And openspec doctor verifies the store reference
 ```
 
 ### Requirement: Documented usage flows
-`docs/setup.md` SHALL document the **Store** layout and **experiment repository** configuration. `docs/usage.md` SHALL document change-time work (an experiment proposing and implementing its own change with store context injected) and write-back (proposing a **common capability** improvement into the **Store** via `--store hep-metadex`).
+`docs/setup.md` SHALL document the **OpenSpec Store** layout and **experiment repository** configuration. `docs/usage.md` SHALL document **change-time work** (an experiment proposing and implementing its own change with **OpenSpec Store** context injected) and **write-back** (proposing a **common capability** improvement into the **OpenSpec Store** via `--store hep-metadex`).
 
 #### Scenario: A reader finds the write-back flow
 
 ```gherkin
 Given the adopter documentation set as delivered by this change
 When a reader wants to propose an improvement to a common capability spec
-Then docs/usage.md describes the write-back flow including the openspec command that names the store
+Then docs/usage.md describes the write-back flow including the openspec command that names the OpenSpec store
 ```
 
 ### Requirement: Maintainer content preserved
