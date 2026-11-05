@@ -47,4 +47,4 @@
 
 - [x] 5.1 Run `openspec validate bootstrap-multi-repo-openspec-stores --type change` and confirm `valid: true` (the schema's `--strict` guidance is superseded by ADR-0003)
 - [x] 5.2 Sweep the governance-docs scenarios: Apache-2.0 `LICENSE` present and recorded as a divergence; every required HSF guideline mapped in `docs/hsf-affiliation.md`; governance and contribution text names no organization-specific process
-- [ ] 5.3 Commit remaining work per BDD zone rules and conventional commits; push the branch and open the hep-metadex PR referencing issue #7
+- [x] 5.3 Commit remaining work per BDD zone rules and conventional commits; push the branch and open the hep-metadex PR referencing issue #7
