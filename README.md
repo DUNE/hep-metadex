@@ -20,7 +20,7 @@ independent channels:
    copied from a hep-metadex checkout at bootstrap time; it never flows
    through the store.
 
-dune-metadex is the first adopter, proving the mechanism end to end. The
+[dune-metadex](https://github.com/DUNE/dune-metadex) is the first adopter, proving the mechanism end to end. The
 store currently launches with no common capability specs by design — the
 first is the immediate follow-up change — so early adopters connect to the
 workflow and grow with the store's first specs.
@@ -29,7 +29,7 @@ workflow and grow with the store's first specs.
 
 Takes a fresh experiment repository from nothing to a connected one:
 scaffolding installed, store registered, reference declared, doctor green.
-The same steps were verified end to end on dune-metadex; the full
+The same steps were verified end to end on [dune-metadex](https://github.com/DUNE/dune-metadex); the full
 explanation, an adopting-into-an-existing-repository variant, and an
 agent-assisted bootstrap prompt live in [docs/setup.md](docs/setup.md).
 

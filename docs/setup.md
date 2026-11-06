@@ -204,6 +204,6 @@ installed and the final `openspec doctor` output.
 ```
 
 The fresh-repository quick start in the README is the verified dogfood path —
-those exact steps were performed on dune-metadex. The existing-repository and
+those exact steps were performed on [dune-metadex](https://github.com/DUNE/dune-metadex). The existing-repository and
 agent-assisted sections above are documented variants of the same plumbing,
 not different mechanisms.

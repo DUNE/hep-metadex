@@ -43,7 +43,7 @@ high-energy physics, not one collaboration. The mechanism-level evidence:
 
 - The two-channel design — specs shared read-only through the
   [OpenSpec Store](../glossary/technical.md), workflow scaffolding installed
-  by template — was proven by the first adoption: **dune-metadex** bootstrapped
+  by template — was proven by the first adoption: [**dune-metadex**](https://github.com/DUNE/dune-metadex) bootstrapped
   from a bare repository to a connected experiment repository
   ([ADR-0001](../adr/0001-serve-experiments-via-readonly-store-references.md),
   [setup.md](setup.md#experiment-repository-configuration)).
