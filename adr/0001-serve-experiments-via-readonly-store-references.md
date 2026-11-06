@@ -29,4 +29,4 @@ Chosen option: "read-only **store references** plus template-installed **workflo
 - Good, because adopting a new experiment touches only its own repository plus one references block.
 - Bad, because **workflow scaffolding** drifts between the **OpenSpec Store** and experiments until re-installed; the README provenance/divergence manifest is the reconciliation discipline.
 - Bad, because references read from disk — stale store checkouts serve stale specs; pull discipline is manual.
-- Follow-up: dune-metadex bootstraps as the first adoption; the first **common capability** spec is the follow-up change.
+- Follow-up: [dune-metadex](https://github.com/DUNE/dune-metadex) bootstraps as the first adoption; the first **common capability** spec is the follow-up change.
