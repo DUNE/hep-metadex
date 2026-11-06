@@ -1,0 +1,28 @@
+name: Validate OpenSpec artifacts
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: openspec validate (all specs and changes)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Install OpenSpec CLI (pinned)
+        env:
+          OPENSPEC_VERSION: v1.16.0
+        run: |
+          curl -fsSL https://openspec.dev/cli/install.sh | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Validate all specs and changes
+        run: openspec validate --all
