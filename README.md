@@ -53,7 +53,9 @@ agent-assisted bootstrap prompt live in [docs/setup.md](docs/setup.md).
    openspec init --tools opencode
    ```
 
-4. **Install the workflow scaffolding** from the store checkout into your
+4. **Install the workflow scaffolding.** Copy the following files and
+   directories from the local store checkout you registered in step 2
+   (for example `~/openspec/hep-metadex`) into the same paths in your
    repository:
 
    - `.agents/skills/`
