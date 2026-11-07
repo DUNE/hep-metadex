@@ -43,7 +43,7 @@ manifest when syncing with the template:
 | `.gitignore` | Minimal local file (template ships a broader one) | Only `openspec/.cache/` is needed so far |
 | `AGENTS.md` | Added a pointer to `docs/intent-prompt-guidelines.md` for intent-prompt authoring | Project-specific contributor guidance; re-apply the pointer after a template sync |
 | `LICENSE` | Full Apache-2.0 license at the repository root instead of the template's MIT `LICENSE.md` | Deliberate divergence: a cross-institution standards artifact needs the explicit patent grant and contribution terms — see [ADR-0004](../adr/0004-apache-2-license-diverging-from-template-mit.md) |
-| `.github/workflows/validate.yml` | Spec-validation CI added (the template ships no CI) | Gates `openspec validate --all` on `valid: true`, non-strict, per [ADR-0003](../adr/0003-fenced-gherkin-single-source-validation-gate.md); the OpenSpec CLI version is pinned in the workflow |
+| `.github/workflows/validate.yml` | Spec-validation CI added (the template ships no CI); distributed with the [workflow scaffolding](../glossary/technical.md) — GitHub-hosted adopters copy this file at bootstrap ([ADR-0005](../adr/0005-distribute-spec-validation-ci-as-host-conditional-scaffolding.md)) | Gates `openspec validate --all` on `valid: true`, non-strict, per [ADR-0003](../adr/0003-fenced-gherkin-single-source-validation-gate.md); the OpenSpec CLI version is pinned in the workflow |
 | Not installed | `package.json`, `package-lock.json`, `skills-lock.json` | Outside the install guide's file list; do not add during a sync without a deliberate decision |
 
 ## Drift Impact
