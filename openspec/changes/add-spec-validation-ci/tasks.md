@@ -10,7 +10,7 @@
 - [x] 1.2 Copy `.github/workflows/validate.yml` verbatim from the registered hep-metadex store checkout into dune-metadex — identical gate: `openspec validate --all` over all specs and changes, `valid: true` non-strict per ADR-0003, OpenSpec CLI pinned to 1.16.0 (design D2: no forked workflow, no adopter-specific edits)
 - [x] 1.3 Verify the gate locally in dune-metadex: run the workflow's exact validate command and confirm exit 0 on the current tree, then confirm it exits non-zero against a deliberately broken scratch spec and discard the scratch file
 - [x] 1.4 Commit per dune-metadex's conventions, push the branch, and open the PR referencing its issue
-- [ ] 1.5 Get the dune-metadex PR merged — the hep-metadex work in groups 2–3 may merge only after this lands (design D4)
+- [x] 1.5 Get the dune-metadex PR merged — the hep-metadex work in groups 2–3 may merge only after this lands (design D4)
 
 ## 2. Kit definition and bootstrap documentation (hep-metadex)
 
