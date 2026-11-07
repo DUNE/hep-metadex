@@ -15,7 +15,7 @@
 ## 2. Kit definition and bootstrap documentation (hep-metadex)
 
 - [x] 2.1 Extend the **workflow scaffolding** definition in `glossary/technical.md` to include the CI workflow as a GitHub-host component (design D6, ADR-0005)
-- [ ] 2.2 Add the host-conditional CI step to `docs/setup.md`'s agent-assisted bootstrap prompt, immediately after the scaffolding-install step (design D3): GitHub-hosted repositories copy `.github/workflows/validate.yml` from the registered store checkout; repositories on other hosts wire the named equivalent `valid: true` gate into their own CI — and explain the host condition in the prose where the prompt lives
+- [x] 2.2 Add the host-conditional CI step to `docs/setup.md`'s agent-assisted bootstrap prompt, immediately after the scaffolding-install step (design D3): GitHub-hosted repositories copy `.github/workflows/validate.yml` from the registered store checkout; repositories on other hosts wire the named equivalent `valid: true` gate into their own CI — and explain the host condition in the prose where the prompt lives
 - [ ] 2.3 Reframe the `.github/workflows/validate.yml` entry in `docs/maintainer.md`'s divergence manifest from a local-only divergence ("the template ships no CI") to a component of **workflow scaffolding** that GitHub-hosted adopters copy at bootstrap — still recorded as an intentional divergence, referencing ADR-0005
 - [ ] 2.4 Add the quick start's host-conditional CI step to `README.md`, immediately after the scaffolding-install step — the claim is verified by group 1 (the worked example has the workflow before the documentation claims the step)
 

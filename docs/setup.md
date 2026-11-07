@@ -20,7 +20,9 @@ Content reaches an experiment repository through two independent channels
    hep-metadex` only when a change needs it.
 2. **[Workflow scaffolding](../glossary/technical.md) flows by template
    install.** The schema, skills, commands, subagents, and agent guidance
-   replicate by copying files from a hep-metadex checkout at bootstrap time.
+   replicate by copying files from a hep-metadex checkout at bootstrap time —
+   and, on GitHub hosts, so does the spec-validation workflow
+   ([ADR-0005](../adr/0005-distribute-spec-validation-ci-as-host-conditional-scaffolding.md)).
    The store never distributes them — store references inject the spec index
    only — and experiments need the kit in their own tree regardless.
 
@@ -188,13 +190,20 @@ Then bootstrap this repository:
    checkout: `.agents/skills/`, `.opencode/` (commands and agent
    definitions), `openspec/schemas/intent-driven/`, `AGENTS.md`, and
    `docs/intent-prompt-guidelines.md`.
-3. Write `openspec/config.yaml` with: `schema: intent-driven`; a
+3. Add spec-validation CI, conditional on this repository's host.
+   - GitHub-hosted: copy `.github/workflows/validate.yml` from the
+     registered hep-metadex store checkout into the same path here.
+   - Hosted elsewhere: wire the equivalent gate into this repository's own
+     CI — run `openspec validate --all` over all specs and changes and fail
+     unless it reports `valid: true`, with the OpenSpec CLI pinned to
+     1.16.0. No CI implementation is provided for other hosts.
+4. Write `openspec/config.yaml` with: `schema: intent-driven`; a
    `references:` block naming the hep-metadex store id and remote
    (https://github.com/DUNE/hep-metadex.git); a `context:` block describing
    this repository's real domain and tech stack; stage rules mirroring
    hep-metadex. Do NOT add a `store:` line — this repository keeps its own
    specs and changes.
-4. Iterate `openspec doctor` until it reports the hep-metadex reference as ok.
+5. Iterate `openspec doctor` until it reports the hep-metadex reference as ok.
 
 Do not create a change, and do not write any implementation code. If this
 repository already has code, record its real tech stack in `context:` and
@@ -202,6 +211,15 @@ note that the first change here should be characterization-first (see
 docs/setup.md in the hep-metadex store). Finish by reporting what you
 installed and the final `openspec doctor` output.
 ```
+
+The CI step is conditional on the host
+([ADR-0005](../adr/0005-distribute-spec-validation-ci-as-host-conditional-scaffolding.md)):
+GitHub-hosted repositories copy the provided workflow verbatim, while
+repositories on other hosts wire the equivalent `valid: true` gate into their
+own CI — the kit ships a GitHub Actions implementation only. dune-metadex
+landed the workflow as [its own issue and
+PR](https://github.com/DUNE/dune-metadex/pull/4) before this documentation
+claimed it as a step.
 
 The fresh-repository quick start in the README is the verified dogfood path —
 those exact steps were performed on [dune-metadex](https://github.com/DUNE/dune-metadex). The existing-repository and
