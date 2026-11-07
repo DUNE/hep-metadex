@@ -28,8 +28,9 @@ workflow and grow with the store's first specs.
 ## Quick Start
 
 Takes a fresh experiment repository from nothing to a connected one:
-scaffolding installed, store registered, reference declared, doctor green.
-The same steps were verified end to end on [dune-metadex](https://github.com/DUNE/dune-metadex); the full
+scaffolding installed, store registered, reference declared, doctor green,
+and spec-validation CI in place per your host. The same steps were verified
+end to end on [dune-metadex](https://github.com/DUNE/dune-metadex); the full
 explanation, an adopting-into-an-existing-repository variant, and an
 agent-assisted bootstrap prompt live in [docs/setup.md](docs/setup.md).
 
@@ -64,7 +65,25 @@ agent-assisted bootstrap prompt live in [docs/setup.md](docs/setup.md).
    - `AGENTS.md`
    - `docs/intent-prompt-guidelines.md` (referenced by `AGENTS.md`)
 
-5. **Declare the Store reference** in your `openspec/config.yaml` — and never
+5. **Add spec-validation CI, conditional on your host.** GitHub-hosted
+   repositories copy the provided workflow from the local store checkout
+   you registered in step 2 (for example `~/openspec/hep-metadex`) into the
+   same path here:
+
+   ```bash
+   mkdir -p .github/workflows
+   cp ~/openspec/hep-metadex/.github/workflows/validate.yml .github/workflows/validate.yml
+   ```
+
+   It runs `openspec validate --all` over all specs and changes, gating on
+   `valid: true` (non-strict, per
+   [ADR-0003](adr/0003-fenced-gherkin-single-source-validation-gate.md)),
+   with the OpenSpec CLI pinned to 1.16.0. Repositories on other hosts wire
+   the equivalent gate into their own CI — the command is the same; the kit
+   provides no implementation for other hosts
+   ([ADR-0005](adr/0005-distribute-spec-validation-ci-as-host-conditional-scaffolding.md)).
+
+6. **Declare the Store reference** in your `openspec/config.yaml` — and never
    a `store:` line, which would route your planning into the central
    repository:
 
@@ -85,7 +104,7 @@ agent-assisted bootstrap prompt live in [docs/setup.md](docs/setup.md).
    [docs/setup.md](docs/setup.md#experiment-repository-configuration) for the
    full configuration and the worked example.
 
-6. **Verify the connection:**
+7. **Verify the connection:**
 
    ```bash
    openspec doctor
