@@ -34,24 +34,24 @@ flowchart LR
         OS["openspec/"]
         SPECS["specs/"]
         CHANGES["changes/"]
-        SCAFFOLD["workflow scaffolding"]
-        KIT[".agents/ + .opencode/"]
-        AGENTS_MD["AGENTS.md"]
-        SCHEMAS["openspec/schemas/"]
+        subgraph KIT["workflow scaffolding — what the bootstrap copies"]
+            K1[".agents/skills/"]
+            K2[".opencode/<br/>(commands and agent definitions)"]
+            K3["openspec/schemas/intent-driven/"]
+            K4["AGENTS.md"]
+            K5["docs/intent-prompt-guidelines.md"]
+            K6[".github/workflows/validate.yml<br/>(GitHub hosts only)"]
+        end
         ROOT --- STORE
         ROOT --- OS
-        ROOT --- SCAFFOLD
         OS --- SPECS
         OS --- CHANGES
-        SCAFFOLD --- KIT
-        SCAFFOLD --- AGENTS_MD
-        SCAFFOLD --- SCHEMAS
     end
     subgraph EX["your experiment repository"]
         CFG["openspec/config.yaml<br/>references: hep-metadex"]
     end
     SPECS ==>|"channel 1 — read-only spec index injection"| CFG
-    SCAFFOLD ==>|"channel 2 — template install at bootstrap"| CFG
+    KIT ==>|"channel 2 — template install at bootstrap"| EX
 ```
 
 Because the channels are separate, an experiment's own specs and changes stay
