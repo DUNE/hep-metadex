@@ -26,15 +26,32 @@ Content reaches an experiment repository through two independent channels
    The store never distributes them — store references inject the spec index
    only — and experiments need the kit in their own tree regardless.
 
-```text
-   hep-metadex (the OpenSpec Store)        your experiment repository
-   ├── .openspec-store/store.yaml    id    └── openspec/config.yaml
-   └── openspec/                                 references: hep-metadex
-       ├── specs/      ── channel 1 ──►  read-only spec index injection
-       └── changes/                                  │
-   ├── .agents/ + .opencode/                          │
-   ├── AGENTS.md          ── channel 2 ──►  template install at bootstrap
-   └── openspec/schemas/
+```mermaid
+flowchart LR
+    subgraph HM["hep-metadex — the OpenSpec Store"]
+        ROOT["hep-metadex/"]
+        STORE[".openspec-store/store.yaml<br/>store identity: the org-neutral id"]
+        OS["openspec/"]
+        SPECS["specs/"]
+        CHANGES["changes/"]
+        subgraph KIT["workflow scaffolding — what the bootstrap copies"]
+            K1[".agents/skills/"]
+            K2[".opencode/<br/>(commands and agent definitions)"]
+            K3["openspec/schemas/intent-driven/"]
+            K4["AGENTS.md"]
+            K5["docs/intent-prompt-guidelines.md"]
+            K6[".github/workflows/validate.yml<br/>(GitHub hosts only)"]
+        end
+        ROOT --- STORE
+        ROOT --- OS
+        OS --- SPECS
+        OS --- CHANGES
+    end
+    subgraph EX["your experiment repository"]
+        CFG["openspec/config.yaml<br/>references: hep-metadex"]
+    end
+    SPECS ==>|"channel 1 — read-only spec index injection"| CFG
+    KIT ==>|"channel 2 — template install at bootstrap"| EX
 ```
 
 Because the channels are separate, an experiment's own specs and changes stay
