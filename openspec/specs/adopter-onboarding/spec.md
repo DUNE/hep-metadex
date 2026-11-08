@@ -7,7 +7,7 @@ Defines the documented path a newcomer follows to adopt the **OpenSpec Store** a
 ## Requirements
 
 ### Requirement: Quick start from a fresh repository
-The README SHALL provide an adopter-facing quick start that takes a newcomer from a fresh **experiment repository** to a connected one — **workflow scaffolding** installed, **Store reference** declared, doctor green — without requiring any other document.
+The README SHALL provide an adopter-facing quick start that takes a newcomer from a fresh **experiment repository** to a connected one — **workflow scaffolding** installed, **Store reference** declared, doctor green, and spec-validation CI in place per the adopter's host — without requiring any other document. The quick start MUST claim a bootstrap step only once the worked example, dune-metadex, has verified it: the **experiment repository** gains the spec-validation workflow before the documentation claims it as a step.
 
 #### Scenario: A stranger bootstraps an experiment repository
 
@@ -16,6 +16,24 @@ Given a newcomer with a fresh experiment repository and a machine with git and t
 When the newcomer follows the README quick start
 Then the repository contains the installed workflow scaffolding and an openspec config declaring the hep-metadex store reference
 And openspec doctor verifies the store reference
+```
+
+#### Scenario: A GitHub-hosted newcomer ends the quick start with a validation gate
+
+```gherkin
+Given a newcomer with a fresh GitHub-hosted experiment repository
+When the newcomer follows the README quick start through its CI step
+Then the repository contains the spec-validation workflow alongside the installed workflow scaffolding
+And the workflow runs openspec validate --all over all specs and changes, gating on valid: true
+```
+
+#### Scenario: The claimed CI step is verified on the worked example
+
+```gherkin
+Given the README quick start claiming the spec-validation CI step
+When a visitor checks dune-metadex, the worked example the quick start cites
+Then the spec-validation workflow is present in that repository
+And its CI gates openspec validate --all on valid: true
 ```
 
 ### Requirement: Documented usage flows
@@ -38,4 +56,38 @@ The README rewrite MUST absorb existing maintainer content — template provenan
 Given the pre-change README documenting template provenance and the divergence manifest
 When the README rewrite lands
 Then a reader can still find the provenance baseline and the divergence manifest within the repository documentation
+```
+
+### Requirement: Host-conditional spec-validation CI in the bootstrap documentation
+The bootstrap documentation — `docs/setup.md` and the agent-assisted bootstrap prompt — SHALL present spec-validation CI as a bootstrap step conditional on the adopter's host. GitHub-hosted **experiment repositories** copy the provided GitHub Actions workflow from the hep-metadex checkout; repositories on other hosts wire the equivalent `valid: true` gate into their own CI, with the gate named but not implemented for them.
+
+#### Scenario: A GitHub-hosted repository copies the provided workflow
+
+```gherkin
+Given a GitHub-hosted experiment repository being bootstrapped with the agent-assisted prompt
+When the agent performs the bootstrap CI step
+Then it copies the provided GitHub Actions workflow from the hep-metadex checkout into the repository
+And the workflow runs openspec validate --all over all specs and changes, gating on valid: true
+And the workflow pins the OpenSpec CLI to 1.16.0
+```
+
+#### Scenario: A repository on another host wires the named equivalent gate
+
+```gherkin
+Given an experiment repository hosted on a platform other than GitHub
+When a reader follows the bootstrap documentation's CI step
+Then the documentation names the equivalent valid: true gate to wire into that host's own CI
+And the documentation ships no CI implementation for that host
+```
+
+### Requirement: Divergence manifest frames the validation workflow as scaffolding for GitHub hosts
+The divergence-manifest entry for `.github/workflows/validate.yml` SHALL present the workflow as a component of **workflow scaffolding** that GitHub-hosted adopters copy at bootstrap, while remaining recorded as an intentional divergence from the intent-driven template.
+
+#### Scenario: An adopter reads the workflow's manifest entry
+
+```gherkin
+Given the divergence manifest in the maintainer guide
+When an adopter reads the entry for the spec-validation workflow
+Then the entry presents the workflow as scaffolding that GitHub-hosted adopters copy at bootstrap
+And a maintainer syncing from the template preserves it as an intentional divergence
 ```
