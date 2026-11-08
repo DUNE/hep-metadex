@@ -208,8 +208,9 @@ Then bootstrap this repository:
    definitions), `openspec/schemas/intent-driven/`, `AGENTS.md`, and
    `docs/intent-prompt-guidelines.md`.
 3. Add spec-validation CI, conditional on this repository's host.
-   - GitHub-hosted: copy `.github/workflows/validate.yml` from the
-     registered hep-metadex store checkout into the same path here.
+   - GitHub-hosted: create `.github/workflows/` if it does not exist, then
+     copy `.github/workflows/validate.yml` from the registered hep-metadex
+     store checkout into the same path here.
    - Hosted elsewhere: wire the equivalent gate into this repository's own
      CI — run `openspec validate --all` over all specs and changes and fail
      unless it reports `valid: true`, with the OpenSpec CLI pinned to
