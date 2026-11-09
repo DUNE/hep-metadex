@@ -23,7 +23,7 @@
 
 ## 3. Verification and completion
 
-- [ ] 3.1 Clean-clone verification (issue #21 rule): clone the apply branch to a scratch directory, run `uv sync` and confirm it succeeds, and confirm `uv run python -V` reports the pinned 3.14.x
-- [ ] 3.2 Run `openspec validate adopt-python-uv-toolchain --type change` and confirm `valid: true` (non-strict per ADR-0003; this change declares `skip_specs`, so no delta scenarios exist)
-- [ ] 3.3 Sweep the deliverables against issue #21's rules: no "TBD" remains in the `context` block; the acceptance `stack:` key is absent from `openspec/config.yaml`; the hsf-affiliation row still maps every required guideline; the divergence manifest, the README repository map, and the glossary term carry the same repo-local boundary; no adopter-facing artifact changed — the README step-4 copy list and the **workflow scaffolding** kit are untouched
-- [ ] 3.4 Commit any remaining work per conventional commits with the `(#21)` suffix and the BDD zone rules, push the apply branch `21-apply-adopt-python-uv-toolchain` (cut from `main` after the planning merge), and open the implementation PR referencing issue #21
+- [x] 3.1 Clean-clone verification (issue #21 rule): clone the apply branch to a scratch directory, run `uv sync` and confirm it succeeds, and confirm `uv run python -V` reports the pinned 3.14.x
+- [x] 3.2 Run `openspec validate adopt-python-uv-toolchain --type change` and confirm `valid: true` (non-strict per ADR-0003; this change declares `skip_specs`, so no delta scenarios exist)
+- [x] 3.3 Sweep the deliverables against issue #21's rules: no "TBD" remains in the `context` block; the acceptance `stack:` key is absent from `openspec/config.yaml`; the hsf-affiliation row still maps every required guideline; the divergence manifest, the README repository map, and the glossary term carry the same repo-local boundary; no adopter-facing artifact changed — the README step-4 copy list and the **workflow scaffolding** kit are untouched
+- [x] 3.4 Commit any remaining work per conventional commits with the `(#21)` suffix and the BDD zone rules, push the apply branch `21-apply-adopt-python-uv-toolchain` (cut from `main` after the planning merge), and open the implementation PR referencing issue #21
