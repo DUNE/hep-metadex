@@ -130,6 +130,7 @@ Stable locations; everything else links from here.
 | `adr/` | Durable architectural decisions, newest last |
 | `glossary/` | Domain and technical terms with use-when/avoid guidance |
 | `pyproject.toml`, `.python-version`, `uv.lock` | The [maintainer toolchain](glossary/technical.md) — Python 3.14 managed by uv, used to maintain this repository itself; not part of the [workflow scaffolding](glossary/technical.md) adopters copy ([ADR-0006](adr/0006-python-uv-as-repo-local-maintainer-toolchain.md)) |
+| `zensical.toml`, `tools/`, `.github/workflows/docs.yml` | The [documentation site](glossary/technical.md) build — Zensical on GitHub Pages, published from `docs/` in place; repo-local like the [maintainer toolchain](glossary/technical.md), not part of what adopters copy ([ADR-0007](adr/0007-publish-zensical-docs-site-on-github-pages.md)) |
 | `openspec/specs/` | The store's published capability specifications |
 | `openspec/changes/` | In-flight changes; `openspec/changes/archive/` holds completed ones |
 | `LICENSE` | Apache-2.0 — a deliberate divergence from the template's MIT, recorded in the [divergence manifest](docs/maintainer.md#intentional-divergences) |

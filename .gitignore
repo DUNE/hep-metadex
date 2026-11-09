@@ -2,3 +2,9 @@
 openspec/.cache/
 # uv virtual environment
 .venv/
+# Zensical docs site build output (tools/docs_site.py)
+site/
+.site-src/
+.site-src.toml
+# Python bytecode caches
+__pycache__/

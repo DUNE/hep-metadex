@@ -46,6 +46,7 @@ manifest when syncing with the template:
 | `.github/workflows/validate.yml` | Spec-validation CI added (the template ships no CI); distributed with the [workflow scaffolding](../glossary/technical.md) — GitHub-hosted adopters copy this file at bootstrap ([ADR-0005](../adr/0005-distribute-spec-validation-ci-as-host-conditional-scaffolding.md)) | Gates `openspec validate --all` on `valid: true`, non-strict, per [ADR-0003](../adr/0003-fenced-gherkin-single-source-validation-gate.md); the OpenSpec CLI version is pinned in the workflow |
 | Not installed | `package.json`, `package-lock.json`, `skills-lock.json` | Outside the install guide's file list; do not add during a sync without a deliberate decision |
 | `pyproject.toml`, `uv.lock`, `.python-version` | Repo-local [maintainer toolchain](../glossary/technical.md) files the template never ships ([ADR-0006](../adr/0006-python-uv-as-repo-local-maintainer-toolchain.md)) | Outside the install guide's file list; do not add during a sync without a deliberate decision |
+| `zensical.toml`, `tools/`, `.github/workflows/docs.yml` | Repo-local [documentation site](../glossary/technical.md) tooling the template never ships ([ADR-0007](../adr/0007-publish-zensical-docs-site-on-github-pages.md)) | Outside the install guide's file list; do not add during a sync without a deliberate decision |
 
 ## Drift Impact
 
