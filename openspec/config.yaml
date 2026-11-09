@@ -1,7 +1,7 @@
 schema: intent-driven
 
 context: |
-  Tech stack: TBD
+  Tech stack: Python 3.14 managed by uv — repo-local maintainer toolchain; zero-runtime; adopting repositories choose their own stacks
   We use conventional commits; every commit references its change's issue number as a (#N) subject suffix; Closes #N appears only in the archive-phase commit
   Domain: experimental high-energy physics metadata management platform
 
