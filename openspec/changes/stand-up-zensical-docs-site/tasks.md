@@ -14,9 +14,9 @@
 
 ## 1. Toolchain dependency and feasibility spike (code zone)
 
-- [ ] 1.1 Run `uv add --dev zensical` — Zensical lands in the `[dependency-groups]` ADR-0006 reserved; confirm it resolves on the pinned Python 3.14 and `uv.lock` updates (design D2 spike, ADR-0007)
-- [ ] 1.2 Spike the staging approach before any other build work: stage one docs page into a scratch `.site-src/` with one rewritten `../` link, write the derived config (settings loaded from a draft `zensical.toml`, `docs_dir` swapped), and confirm `uv run zensical build --strict --config-file <derived>` is green; if red, stop and adopt the design's fallback (a committed build config pointing at the staging tree) only after consciously amending the change's `docs_dir` deliverable wording (design D2, Risks)
-- [ ] 1.3 Commit the dependency pin as `build(docs): pin zensical as a dev dependency (#22)` — `pyproject.toml` plus `uv.lock`; code zone: nothing under `openspec/` uncommitted alongside
+- [x] 1.1 Run `uv add --dev zensical` — Zensical lands in the `[dependency-groups]` ADR-0006 reserved; confirm it resolves on the pinned Python 3.14 and `uv.lock` updates (design D2 spike, ADR-0007)
+- [x] 1.2 Spike the staging approach before any other build work: stage one docs page into a scratch `.site-src/` with one rewritten `../` link, write the derived config (settings loaded from a draft `zensical.toml`, `docs_dir` swapped), and confirm `uv run zensical build --strict --config-file <derived>` is green; if red, stop and adopt the design's fallback (a committed build config pointing at the staging tree) only after consciously amending the change's `docs_dir` deliverable wording (design D2, Risks)
+- [x] 1.3 Commit the dependency pin as `build(docs): pin zensical as a dev dependency (#22)` — `pyproject.toml` plus `uv.lock`; code zone: nothing under `openspec/` uncommitted alongside
 
 ## 2. Site build machinery (code zone)
 
