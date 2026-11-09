@@ -1,2 +1,4 @@
 # OpenSpec local output
 openspec/.cache/
+# uv virtual environment
+.venv/
