@@ -29,8 +29,8 @@
 
 ## 3. CI publishing workflow (code zone)
 
-- [ ] 3.1 Create `.github/workflows/docs.yml` — triggers on `pull_request` and `push` to `main` (plus `workflow_dispatch` for manual republish from `main`); both paths check out, install uv via `astral-sh/setup-uv` with an explicitly pinned version (closing ADR-0006's deferred pinning question), run `uv sync --locked`, then `uv run tools/docs_site.py build` (the strict gate); the `main` path additionally uploads `site/` via `actions/upload-pages-artifact` and deploys via `actions/deploy-pages` under `permissions: contents: read, pages: write, id-token: write`, the `github-pages` environment, and a deploy concurrency group; no CI caching (design D4); commit as `ci(docs): add the uv-native build-and-publish workflow (#22)`
-- [ ] 3.2 Operational, no commit: a repository admin enables GitHub Pages with the GitHub Actions publishing source — the one-time precondition; the publish requirement is untestable until it is done (design D4)
+- [x] 3.1 Create `.github/workflows/docs.yml` — triggers on `pull_request` and `push` to `main` (plus `workflow_dispatch` for manual republish from `main`); both paths check out, install uv via `astral-sh/setup-uv` with an explicitly pinned version (closing ADR-0006's deferred pinning question), run `uv sync --locked`, then `uv run tools/docs_site.py build` (the strict gate); the `main` path additionally uploads `site/` via `actions/upload-pages-artifact` and deploys via `actions/deploy-pages` under `permissions: contents: read, pages: write, id-token: write`, the `github-pages` environment, and a deploy concurrency group; no CI caching (design D4); commit as `ci(docs): add the uv-native build-and-publish workflow (#22)`
+- [x] 3.2 Operational, no commit: a repository admin enables GitHub Pages with the GitHub Actions publishing source — the one-time precondition; the publish requirement is untestable until it is done (design D4)
 
 ## 4. Governance, bookkeeping, and glossary (code zone)
 
