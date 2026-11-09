@@ -8,11 +8,11 @@
 
 ## 1. uv project scaffolding (code zone)
 
-- [ ] 1.1 Create `pyproject.toml` — bare `[project]` with `name = "hep-metadex"`, a `version`, and `requires-python = ">=3.14"`; no build system, no package scaffolding; dev tooling reserved for uv's `[dependency-groups]`, introduced empty (design D2, ADR-0006)
-- [ ] 1.2 Create `.python-version` pinning `3.14` — the major-minor pin lets uv absorb patch releases (design D2)
-- [ ] 1.3 Extend `.gitignore` with `.venv/` (design D2)
-- [ ] 1.4 Run `uv sync` to generate `uv.lock` and the environment; verify `uv run python -V` reports 3.14.x
-- [ ] 1.5 Commit as `chore(toolchain): add uv scaffolding with the Python 3.14 pin (#21)` — code zone: nothing under `openspec/` uncommitted alongside
+- [x] 1.1 Create `pyproject.toml` — bare `[project]` with `name = "hep-metadex"`, a `version`, and `requires-python = ">=3.14"`; no build system, no package scaffolding; dev tooling reserved for uv's `[dependency-groups]`, introduced empty (design D2, ADR-0006)
+- [x] 1.2 Create `.python-version` pinning `3.14` — the major-minor pin lets uv absorb patch releases (design D2)
+- [x] 1.3 Extend `.gitignore` with `.venv/` (design D2)
+- [x] 1.4 Run `uv sync` to generate `uv.lock` and the environment; verify `uv run python -V` reports 3.14.x
+- [x] 1.5 Commit as `chore(toolchain): add uv scaffolding with the Python 3.14 pin (#21)` — code zone: nothing under `openspec/` uncommitted alongside
 
 ## 2. Governance and documentation alignment
 
