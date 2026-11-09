@@ -34,9 +34,9 @@
 
 ## 4. Governance, bookkeeping, and glossary (code zone)
 
-- [ ] 4.1 Update the Documentation row in `docs/hsf-affiliation.md` — cite the live site URL alongside the README and `docs/` citations, as a factual hosting citation per the `governance-docs` delta (design D6); commit as `docs(governance): cite the live site in the HSF checklist documentation row (#22)`
-- [ ] 4.2 Add the divergence-manifest row in `docs/maintainer.md` — `zensical.toml`, `tools/docs_site.py`, `.github/workflows/docs.yml` as repo-local site tooling the template never ships, mirroring the ADR-0006 toolchain row's sync semantics — and one README repository-map row for the same files (design D6, the #21 precedent); commit as `docs(maintainer): record the docs-site tooling divergence and map row (#22)`
-- [ ] 4.3 Add the **documentation site** term to `glossary/technical.md` with use-when/avoid guidance per the proposal's glossary companion; commit as `docs(glossary): add the documentation site term (#22)`
+- [x] 4.1 Update the Documentation row in `docs/hsf-affiliation.md` — cite the live site URL alongside the README and `docs/` citations, as a factual hosting citation per the `governance-docs` delta (design D6); commit as `docs(governance): cite the live site in the HSF checklist documentation row (#22)`
+- [x] 4.2 Add the divergence-manifest row in `docs/maintainer.md` — `zensical.toml`, `tools/docs_site.py`, `.github/workflows/docs.yml` as repo-local site tooling the template never ships, mirroring the ADR-0006 toolchain row's sync semantics — and one README repository-map row for the same files (design D6, the #21 precedent); commit as `docs(maintainer): record the docs-site tooling divergence and map row (#22)`
+- [x] 4.3 Add the **documentation site** term to `glossary/technical.md` with use-when/avoid guidance per the proposal's glossary companion; commit as `docs(glossary): add the documentation site term (#22)`
 
 ## 5. Verification and completion
 
