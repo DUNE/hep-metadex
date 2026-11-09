@@ -20,12 +20,12 @@
 
 ## 2. Site build machinery (code zone)
 
-- [ ] 2.1 Create `tools/docs_site.py` via the senior-dev subagent — stdlib-only, with a `build` subcommand (load the committed `zensical.toml` with `tomllib`, stage `docs/` into `.site-src/` rewriting every `../`-escaping relative link to `{repo_url}/blob/main/{path}` with `#anchor` fragments preserved, uniformly for all out-of-tree targets, write the derived config with `docs_dir` swapped, invoke `zensical build --strict --config-file`) and a `serve` subcommand (stage, then preview the staged tree) (design D2/D3, ADR-0007)
-- [ ] 2.2 Extend `.gitignore` with `site/` and `.site-src/` (design D2)
-- [ ] 2.3 Create `zensical.toml` — `site_name`, `site_url` (the exact Pages URL), `repo_url` as the single repo-URL setting, `docs_dir = "docs"`, `site_dir`, explicit `nav` with config-side titles for all seven pages (Home, Setup, Usage, Governance, HSF Affiliation, Maintainer Guide, Intent Prompt Guidelines), minimal built-in theme, `strict = true` (design D1/D3/D5)
-- [ ] 2.4 Create `docs/index.md` — the audience-facing landing page per design D5: what hep-metadex is, paths for adopters and evaluators, the GitHub repository link, using the same relative links as every other page
-- [ ] 2.5 Verify locally: `uv run tools/docs_site.py build` exits green under strict mode; all seven pages appear in navigation; the staged tree shows rewritten out-of-tree links while `git status` shows no docs-source edits beyond `docs/index.md`
-- [ ] 2.6 Commit as `feat(docs): add the staging build entry point for the docs site (#22)` (`tools/docs_site.py` + `.gitignore`), `docs(site): add zensical.toml with in-place docs_dir, navigation, and theme (#22)`, and `docs(site): add the site landing page (#22)`
+- [x] 2.1 Create `tools/docs_site.py` via the senior-dev subagent — stdlib-only, with a `build` subcommand (load the committed `zensical.toml` with `tomllib`, stage `docs/` into `.site-src/` rewriting every `../`-escaping relative link to `{repo_url}/blob/main/{path}` with `#anchor` fragments preserved, uniformly for all out-of-tree targets, write the derived config with `docs_dir` swapped, invoke `zensical build --strict --config-file`) and a `serve` subcommand (stage, then preview the staged tree) (design D2/D3, ADR-0007)
+- [x] 2.2 Extend `.gitignore` with `site/` and `.site-src/` (design D2)
+- [x] 2.3 Create `zensical.toml` — `site_name`, `site_url` (the exact Pages URL), `repo_url` as the single repo-URL setting, `docs_dir = "docs"`, `site_dir`, explicit `nav` with config-side titles for all seven pages (Home, Setup, Usage, Governance, HSF Affiliation, Maintainer Guide, Intent Prompt Guidelines), minimal built-in theme, `strict = true` (design D1/D3/D5)
+- [x] 2.4 Create `docs/index.md` — the audience-facing landing page per design D5: what hep-metadex is, paths for adopters and evaluators, the GitHub repository link, using the same relative links as every other page
+- [x] 2.5 Verify locally: `uv run tools/docs_site.py build` exits green under strict mode; all seven pages appear in navigation; the staged tree shows rewritten out-of-tree links while `git status` shows no docs-source edits beyond `docs/index.md`
+- [x] 2.6 Commit as `feat(docs): add the staging build entry point for the docs site (#22)` (`tools/docs_site.py` + `.gitignore`), `docs(site): add zensical.toml with in-place docs_dir, navigation, and theme (#22)`, and `docs(site): add the site landing page (#22)`
 
 ## 3. CI publishing workflow (code zone)
 
