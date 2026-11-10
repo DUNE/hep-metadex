@@ -21,9 +21,9 @@ Never create commits, branches, or merges unless the user explicitly asks.
 
 | Moment | Gate |
 | --- | --- |
-| Before propose | Prefer `main`; if not, warn and ask whether to continue intentionally. |
+| Before propose | Cut the change's issue branch `<issue-number>-<change-slug>` from `main` before its first commit (ask-first; on decline, warn and ask whether to continue intentionally). |
 | During continue | Before creating the next artifact, ask the user to commit completed artifact changes or explicitly continue without that checkpoint. |
-| After propose | Ask the user to commit proposal artifacts; offer to create a PR branch for review. |
+| After propose | Ask the user to commit proposal artifacts on the issue branch; offer to open the planning PR from the branch that already exists. |
 | Before apply | Confirm the proposal change is committed on `main`; then apply may run from `main`, a branch, or a worktree. |
 | Before archive | Stop unless implementation is merged back to `main` and archive is running from `main`. |
 | After archive | Ask the user to commit archive/spec sync changes. |
