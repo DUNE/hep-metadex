@@ -29,11 +29,11 @@
 - [x] 3.3 Add the **issue branch** term to `glossary/technical.md` per design D8 — definition scoped to planning and implementation commits, with use-when and avoid columns per the glossary discipline (avoid: the apply-phase `<issue>-apply-<change>` branch and the archive phase's direct metadata commit)
 - [x] 3.4 Commit as `docs(contributing): add the issue-branch naming rule to the PR section (#24)`
 - [x] 3.5 Commit as `docs(agents): point agent sessions at the issue-branch convention (#24)`
-- [ ] 3.6 Commit as `docs(glossary): define the issue-branch term (#24)`
+- [x] 3.6 Commit as `docs(glossary): define the issue-branch term (#24)`
 
 ## 4. Verification and completion
 
-- [ ] 4.1 Run `openspec validate require-issue-branch-for-changes --type change` and confirm `valid: true` (non-strict per ADR-0003 — fenced Gherkin is the single scenario source, so CLI 1.16.0's step-detection warnings are expected noise, not failures)
-- [ ] 4.2 Scripted sweep of the delta scenarios against the delivered files: both gate rows match D1/D2 verbatim; the manifest row and drift bullet are present in `docs/maintainer.md`; the CONTRIBUTING bullet carries the naming rule and the apply-pattern pointer; `AGENTS.md` carries the convention; the glossary term's definition is scoped to planning and implementation commits
-- [ ] 4.3 Check issue #24's five rules one by one against the delivered state: branch cut before the first commit; change work reaches `main` only by pull-request merge with the archive bookkeeping exception; phase sequence and merge discipline unchanged; the no-auto-git rule intact; maintainer guidance explains the hand-merge and re-apply recovery
-- [ ] 4.4 Commit any remaining work per conventional commits with the `(#24)` suffix, push the apply branch `24-apply-require-issue-branch-for-changes` (cut from `main` after the planning merge), and open the implementation PR referencing issue #24
+- [x] 4.1 Run `openspec validate require-issue-branch-for-changes --type change` and confirm `valid: true` (non-strict per ADR-0003 — fenced Gherkin is the single scenario source, so CLI 1.16.0's step-detection warnings are expected noise, not failures)
+- [x] 4.2 Scripted sweep of the delta scenarios against the delivered files: both gate rows match D1/D2 verbatim; the manifest row and drift bullet are present in `docs/maintainer.md`; the CONTRIBUTING bullet carries the naming rule and the apply-pattern pointer; `AGENTS.md` carries the convention; the glossary term's definition is scoped to planning and implementation commits
+- [x] 4.3 Check issue #24's five rules one by one against the delivered state: branch cut before the first commit; change work reaches `main` only by pull-request merge with the archive bookkeeping exception; phase sequence and merge discipline unchanged; the no-auto-git rule intact; maintainer guidance explains the hand-merge and re-apply recovery
+- [x] 4.4 Commit any remaining work per conventional commits with the `(#24)` suffix, push the apply branch `24-apply-require-issue-branch-for-changes` (cut from `main` after the planning merge), and open the implementation PR referencing issue #24
