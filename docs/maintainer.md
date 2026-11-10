@@ -40,6 +40,7 @@ manifest when syncing with the template:
 | `openspec/config.yaml` | Active `context` block (tech stack, conventional commits, HEP domain, subagent routing) and all stage rules enabled | Project-specific configuration; designated customization point |
 | `openspec/schemas/intent-driven/templates/spec.md` | "business rule" placeholders changed to "domain rule" | This is a high-energy physics domain, not a business domain; the local schema copy is the designated customization point |
 | `.agents/skills/glossary/` | `glossary/business.md` convention renamed to `glossary/domain.md` (SKILL.md, README.md) | HEP domain terms should not be filed under a "business" label; **this is a fork of a vendored skill** |
+| `.agents/skills/openspec-git-discipline/` | The "Before propose" and "After propose" gates amended to require the `<issue-number>-<change-slug>` issue branch cut from `main` before a change's first commit | Standing policy that change work reaches `main` only by pull-request merge — **this is a fork of a vendored skill** |
 | `.gitignore` | Minimal local file (template ships a broader one) | Only `openspec/.cache/` and `.venv/` are needed so far |
 | `AGENTS.md` | Added a pointer to `docs/intent-prompt-guidelines.md` for intent-prompt authoring | Project-specific contributor guidance; re-apply the pointer after a template sync |
 | `LICENSE` | Full Apache-2.0 license at the repository root instead of the template's MIT `LICENSE.md` | Deliberate divergence: a cross-institution standards artifact needs the explicit patent grant and contribution terms — see [ADR-0004](../adr/0004-apache-2-license-diverging-from-template-mit.md) |
@@ -58,6 +59,11 @@ manifest when syncing with the template:
   overwrites this directory silently reverts `glossary/domain.md` back to
   `glossary/business.md`. Re-apply the rename after updating, or merge
   upstream changes by hand.
+- **Vendored skill fork** (`.agents/skills/openspec-git-discipline/`): a
+  template sync that overwrites this directory silently reverts the two
+  amended gates ("Before propose" cuts the issue branch; "After propose"
+  opens the planning PR from it). Hand-merge upstream changes into the
+  skill and re-apply both gates after any sync.
 - **CLI-generated files**: never copy the template's versions of the shared
   commands and skills over the local ones — the template currently ships
   older (1.14.0) versions than the installed CLI (1.16.0) produced. Update

@@ -14,12 +14,12 @@
 - [x] 1.1 Replace the "Before propose" row in `.agents/skills/openspec-git-discipline/SKILL.md` with design D1's exact wording — *Cut the change's issue branch `<issue-number>-<change-slug>` from `main` before its first commit (ask-first; on decline, warn and ask whether to continue intentionally)* — replacing "Prefer `main`" (spec: Issue branch cut before a change's first commit, both scenarios)
 - [x] 1.2 Replace the "After propose" row with design D2's exact wording — *Ask the user to commit proposal artifacts on the issue branch; offer to open the planning PR from the branch that already exists* — replacing the offer to create a PR branch (spec: After propose opens the PR from the existing branch)
 - [x] 1.3 Confirm the rest of `SKILL.md` is untouched — Core Rule, "During continue", "Before apply", "Before archive", "After archive", Required Checks, and Red Flags all byte-identical to the pre-change version (spec: Phase sequence and merge discipline preserved; No-auto-git rule intact)
-- [ ] 1.4 Commit as `docs(skill): require the issue branch before a change's first commit (#24)`
+- [x] 1.4 Commit as `docs(skill): require the issue branch before a change's first commit (#24)`
 
 ## 2. Maintainer guidance: record the fork (code zone)
 
-- [ ] 2.1 Add the divergence-manifest row in `docs/maintainer.md` per design D4 — Area `.agents/skills/openspec-git-discipline/`; divergence: the two amended gates requiring the `<issue-number>-<change-slug>` issue branch cut from `main` before a change's first commit; reason: standing policy that change work reaches `main` only by pull-request merge; carry the glossary row's "fork of a vendored skill" marker (spec: Fork recorded and recoverable in maintainer guidance, scenario 1)
-- [ ] 2.2 Add the drift-impact bullet per design D5, parallel to the glossary fork's — a template sync that overwrites the skill silently reverts the two amended gates; recover by hand-merging upstream changes into `.agents/skills/openspec-git-discipline/` and re-applying the two gates (spec scenario 2)
+- [x] 2.1 Add the divergence-manifest row in `docs/maintainer.md` per design D4 — Area `.agents/skills/openspec-git-discipline/`; divergence: the two amended gates requiring the `<issue-number>-<change-slug>` issue branch cut from `main` before a change's first commit; reason: standing policy that change work reaches `main` only by pull-request merge; carry the glossary row's "fork of a vendored skill" marker (spec: Fork recorded and recoverable in maintainer guidance, scenario 1)
+- [x] 2.2 Add the drift-impact bullet per design D5, parallel to the glossary fork's — a template sync that overwrites the skill silently reverts the two amended gates; recover by hand-merging upstream changes into `.agents/skills/openspec-git-discipline/` and re-applying the two gates (spec scenario 2)
 - [ ] 2.3 Commit as `docs(maintainer): record the git-discipline skill fork and its drift impact (#24)`
 
 ## 3. Contributor and agent surfaces (code zone)
