@@ -17,10 +17,12 @@ open and closed tickets alike.
 
 All work lands through pull requests:
 
-- Branch from `main`, open the PR against `main`, and keep the
+- Branch from `main` as `<issue-number>-<change-slug>` — cut before the
+  change's first commit — open the PR against `main`, and keep the
   [change lifecycle](docs/usage.md#the-change-lifecycle) — planning artifacts
   merge before implementation starts; implementation merges before anything
-  archives.
+  archives (implementation branches follow the documented
+  `<issue>-apply-<change>` pattern in [docs/usage.md](docs/usage.md)).
 - Spec-validation CI must pass: `openspec validate` over all specs and
   changes, gating on `valid: true` ([ADR-0003](adr/0003-fenced-gherkin-single-source-validation-gate.md)).
 - Proposing an improvement to a [common capability](glossary/domain.md) spec?

@@ -20,11 +20,11 @@
 
 - [x] 2.1 Add the divergence-manifest row in `docs/maintainer.md` per design D4 — Area `.agents/skills/openspec-git-discipline/`; divergence: the two amended gates requiring the `<issue-number>-<change-slug>` issue branch cut from `main` before a change's first commit; reason: standing policy that change work reaches `main` only by pull-request merge; carry the glossary row's "fork of a vendored skill" marker (spec: Fork recorded and recoverable in maintainer guidance, scenario 1)
 - [x] 2.2 Add the drift-impact bullet per design D5, parallel to the glossary fork's — a template sync that overwrites the skill silently reverts the two amended gates; recover by hand-merging upstream changes into `.agents/skills/openspec-git-discipline/` and re-applying the two gates (spec scenario 2)
-- [ ] 2.3 Commit as `docs(maintainer): record the git-discipline skill fork and its drift impact (#24)`
+- [x] 2.3 Commit as `docs(maintainer): record the git-discipline skill fork and its drift impact (#24)`
 
 ## 3. Contributor and agent surfaces (code zone)
 
-- [ ] 3.1 Extend the pull-request bullet in `CONTRIBUTING.md` per design D6 — "Branch from `main`" gains `<issue-number>-<change-slug>` cut before the change's first commit, with the parenthetical that implementation branches follow the documented `<issue>-apply-<change>` pattern (spec: Contributor and agent surfaces carry the naming rule, scenario 1)
+- [x] 3.1 Extend the pull-request bullet in `CONTRIBUTING.md` per design D6 — "Branch from `main`" gains `<issue-number>-<change-slug>` cut before the change's first commit, with the parenthetical that implementation branches follow the documented `<issue>-apply-<change>` pattern (spec: Contributor and agent surfaces carry the naming rule, scenario 1)
 - [ ] 3.2 Add the fourth bullet to `AGENTS.md` per design D7 — the one-line issue-branch convention, ending with the pointer to the openspec-git-discipline skill (spec scenario 2)
 - [ ] 3.3 Add the **issue branch** term to `glossary/technical.md` per design D8 — definition scoped to planning and implementation commits, with use-when and avoid columns per the glossary discipline (avoid: the apply-phase `<issue>-apply-<change>` branch and the archive phase's direct metadata commit)
 - [ ] 3.4 Commit as `docs(contributing): add the issue-branch naming rule to the PR section (#24)`
