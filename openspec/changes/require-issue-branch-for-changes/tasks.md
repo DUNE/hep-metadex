@@ -25,9 +25,9 @@
 ## 3. Contributor and agent surfaces (code zone)
 
 - [x] 3.1 Extend the pull-request bullet in `CONTRIBUTING.md` per design D6 — "Branch from `main`" gains `<issue-number>-<change-slug>` cut before the change's first commit, with the parenthetical that implementation branches follow the documented `<issue>-apply-<change>` pattern (spec: Contributor and agent surfaces carry the naming rule, scenario 1)
-- [ ] 3.2 Add the fourth bullet to `AGENTS.md` per design D7 — the one-line issue-branch convention, ending with the pointer to the openspec-git-discipline skill (spec scenario 2)
+- [x] 3.2 Add the fourth bullet to `AGENTS.md` per design D7 — the one-line issue-branch convention, ending with the pointer to the openspec-git-discipline skill (spec scenario 2)
 - [ ] 3.3 Add the **issue branch** term to `glossary/technical.md` per design D8 — definition scoped to planning and implementation commits, with use-when and avoid columns per the glossary discipline (avoid: the apply-phase `<issue>-apply-<change>` branch and the archive phase's direct metadata commit)
-- [ ] 3.4 Commit as `docs(contributing): add the issue-branch naming rule to the PR section (#24)`
+- [x] 3.4 Commit as `docs(contributing): add the issue-branch naming rule to the PR section (#24)`
 - [ ] 3.5 Commit as `docs(agents): point agent sessions at the issue-branch convention (#24)`
 - [ ] 3.6 Commit as `docs(glossary): define the issue-branch term (#24)`
 
