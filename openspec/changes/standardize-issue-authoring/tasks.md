@@ -8,9 +8,9 @@
 
 ## 1. Issue form and blank-issue policy (code zone)
 
-- [ ] 1.1 Create `.github/ISSUE_TEMPLATE/change.yml` per design D1 — GitHub YAML issue form with six required textareas in issue-body order (Context, Suggested change name, Actor, Deliverables, Rules, Out of scope; `validations: required: true` on each) plus one optional free-form textarea for the labeled optional sections (Gate, Trigger, Decisions inside the change, Provenance, References); no issue labels set; field microcopy written against the guidelines section from task 2.1 so the two never diverge; copy stays **org-neutral** (ADR-0002)
-- [ ] 1.2 Create `.github/ISSUE_TEMPLATE/config.yml` per design D2 — `blank_issues_enabled: false` and nothing else (no contact links, no extra templates)
-- [ ] 1.3 Verify both files parse as YAML with a local parser; the authoritative render check is GitHub's issue-form preview on the pull request
+- [x] 1.1 Create `.github/ISSUE_TEMPLATE/change.yml` per design D1 — GitHub YAML issue form with six required textareas in issue-body order (Context, Suggested change name, Actor, Deliverables, Rules, Out of scope; `validations: required: true` on each) plus one optional free-form textarea for the labeled optional sections (Gate, Trigger, Decisions inside the change, Provenance, References); no issue labels set; field microcopy written against the guidelines section from task 2.1 so the two never diverge; copy stays **org-neutral** (ADR-0002)
+- [x] 1.2 Create `.github/ISSUE_TEMPLATE/config.yml` per design D2 — `blank_issues_enabled: false` and nothing else (no contact links, no extra templates)
+- [x] 1.3 Verify both files parse as YAML with a local parser; the authoritative render check is GitHub's issue-form preview on the pull request
 - [ ] 1.4 Commit as `feat(issues): add the intent-material change form and disable blank issues (#23)` — code zone: nothing under `openspec/` uncommitted alongside
 
 ## 2. Writing Issues guidance (code zone)
