@@ -21,7 +21,8 @@ Content reaches an experiment repository through two independent channels
 2. **[Workflow scaffolding](../glossary/technical.md) flows by template
    install.** The schema, skills, commands, subagents, and agent guidance
    replicate by copying files from a hep-metadex checkout at bootstrap time —
-   and, on GitHub hosts, so does the spec-validation workflow
+   and, on GitHub hosts, so do the spec-validation workflow and the issue
+   form
    ([ADR-0005](../adr/0005-distribute-spec-validation-ci-as-host-conditional-scaffolding.md)).
    The store never distributes them — store references inject the spec index
    only — and experiments need the kit in their own tree regardless.
@@ -41,6 +42,7 @@ flowchart LR
             K4["AGENTS.md"]
             K5["docs/intent-prompt-guidelines.md"]
             K6[".github/workflows/validate.yml<br/>(GitHub hosts only)"]
+            K7[".github/ISSUE_TEMPLATE/<br/>(GitHub hosts only)"]
         end
         ROOT --- STORE
         ROOT --- OS
@@ -207,14 +209,18 @@ Then bootstrap this repository:
    checkout: `.agents/skills/`, `.opencode/` (commands and agent
    definitions), `openspec/schemas/intent-driven/`, `AGENTS.md`, and
    `docs/intent-prompt-guidelines.md`.
-3. Add spec-validation CI, conditional on this repository's host.
-   - GitHub-hosted: create `.github/workflows/` if it does not exist, then
-     copy `.github/workflows/validate.yml` from the registered hep-metadex
-     store checkout into the same path here.
+3. Add the host-conditional GitHub files — spec-validation CI and the issue
+   form — conditional on this repository's host.
+   - GitHub-hosted: create `.github/workflows/` and `.github/ISSUE_TEMPLATE/`
+     if they do not exist, then copy `.github/workflows/validate.yml` and
+     `.github/ISSUE_TEMPLATE/` (`change.yml` and `config.yml`) from the
+     registered hep-metadex store checkout into the same paths here.
    - Hosted elsewhere: wire the equivalent gate into this repository's own
      CI — run `openspec validate --all` over all specs and changes and fail
      unless it reports `valid: true`, with the OpenSpec CLI pinned to
-     1.16.0. No CI implementation is provided for other hosts.
+     1.16.0 — and replicate the intent-material issue convention in this
+     host's own issue tracker (see docs/intent-prompt-guidelines.md in the
+     hep-metadex store). No implementation is provided for other hosts.
 4. Write `openspec/config.yaml` with: `schema: intent-driven`; a
    `references:` block naming the hep-metadex store id and remote
    (https://github.com/DUNE/hep-metadex.git); a `context:` block describing
@@ -230,14 +236,16 @@ docs/setup.md in the hep-metadex store). Finish by reporting what you
 installed and the final `openspec doctor` output.
 ```
 
-The CI step is conditional on the host
+The CI and issue-form steps are conditional on the host
 ([ADR-0005](../adr/0005-distribute-spec-validation-ci-as-host-conditional-scaffolding.md)):
-GitHub-hosted repositories copy the provided workflow verbatim, while
-repositories on other hosts wire the equivalent `valid: true` gate into their
-own CI — the kit ships a GitHub Actions implementation only. dune-metadex
-landed the workflow as [its own issue and
-PR](https://github.com/DUNE/dune-metadex/pull/4) before this documentation
-claimed it as a step.
+GitHub-hosted repositories copy the provided files verbatim, while
+repositories on other hosts wire the equivalent `valid: true` gate and
+replicate the issue-authoring convention in their own tooling — the kit
+ships GitHub implementations only. dune-metadex landed the workflow as [its
+own issue and PR](https://github.com/DUNE/dune-metadex/pull/4) and the
+issue form as [its own issue and
+PR](https://github.com/DUNE/dune-metadex/pull/6) before this documentation
+claimed them as steps.
 
 The fresh-repository quick start in the README is the verified dogfood path —
 those exact steps were performed on [dune-metadex](https://github.com/DUNE/dune-metadex). The existing-repository and
