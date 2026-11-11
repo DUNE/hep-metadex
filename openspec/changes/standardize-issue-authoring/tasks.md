@@ -23,7 +23,7 @@
 
 - [x] 3.1 Extend CONTRIBUTING.md's "Every Change Starts as an Issue" section per design D6 — point to the issue form and the Writing Issues guidance
 - [x] 3.2 Extend CONTRIBUTING.md's "Where Decisions Live" section per design D7 — reference ADR-0008's kit-layering routing rule for contributors deciding where a new convention belongs
-- [ ] 3.3 Commit as `docs(contributing): point the issue policy and decisions sections at the template and routing rule (#23)`
+- [x] 3.3 Commit as `docs(contributing): point the issue policy and decisions sections at the template and routing rule (#23)`
 - [x] 3.4 Extend AGENTS.md's `docs/intent-prompt-guidelines.md` pointer per design D6 — agent-authored issues follow the **intent material** template through the existing guidelines-doc pointer; no new authoring skill
 - [x] 3.5 Commit as `docs(agents): extend the guidelines pointer to issue authoring (#23)`
 
@@ -39,7 +39,7 @@
 
 - [x] 5.1 Add the divergence-manifest row for `.github/ISSUE_TEMPLATE/` per design D8 — kit the template never ships, distributed host-conditionally so GitHub-hosted adopters copy it at bootstrap, citing issue #23 and ADR-0008; framed like the validate.yml row
 - [x] 5.2 Add the routing-rule reference to `docs/maintainer.md`'s Repository Configuration section per design D7 — the section already maps skills, commands, and config to their roles; the ADR-0008 reference completes the map
-- [ ] 5.3 Commit as `docs(maintainer): record the issue-form divergence and routing-rule reference (#23)`
+- [x] 5.3 Commit as `docs(maintainer): record the issue-form divergence and routing-rule reference (#23)`
 
 ## 6. Verification and completion
 
