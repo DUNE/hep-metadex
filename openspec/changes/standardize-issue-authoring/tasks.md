@@ -11,12 +11,12 @@
 - [x] 1.1 Create `.github/ISSUE_TEMPLATE/change.yml` per design D1 — GitHub YAML issue form with six required textareas in issue-body order (Context, Suggested change name, Actor, Deliverables, Rules, Out of scope; `validations: required: true` on each) plus one optional free-form textarea for the labeled optional sections (Gate, Trigger, Decisions inside the change, Provenance, References); no issue labels set; field microcopy written against the guidelines section from task 2.1 so the two never diverge; copy stays **org-neutral** (ADR-0002)
 - [x] 1.2 Create `.github/ISSUE_TEMPLATE/config.yml` per design D2 — `blank_issues_enabled: false` and nothing else (no contact links, no extra templates)
 - [x] 1.3 Verify both files parse as YAML with a local parser; the authoritative render check is GitHub's issue-form preview on the pull request
-- [ ] 1.4 Commit as `feat(issues): add the intent-material change form and disable blank issues (#23)` — code zone: nothing under `openspec/` uncommitted alongside
+- [x] 1.4 Commit as `feat(issues): add the intent-material change form and disable blank issues (#23)` — code zone: nothing under `openspec/` uncommitted alongside
 
 ## 2. Writing Issues guidance (code zone)
 
-- [ ] 2.1 Add the "Writing Issues" section to `docs/intent-prompt-guidelines.md` per design D5 — directly after the existing Template section; define the six required sections and the five optional labeled sections with one-line use-when guidance each; note that the GitHub form pre-fills the sections with blank issues disabled and that repositories on other hosts replicate the convention natively; the document stays at its current path (docs-site spec pin)
-- [ ] 2.2 Rebuild the documentation site through the **maintainer toolchain** and confirm the strict build passes — zero invalid links or anchors (ADR-0007)
+- [x] 2.1 Add the "Writing Issues" section to `docs/intent-prompt-guidelines.md` per design D5 — directly after the existing Template section; define the six required sections and the five optional labeled sections with one-line use-when guidance each; note that the GitHub form pre-fills the sections with blank issues disabled and that repositories on other hosts replicate the convention natively; the document stays at its current path (docs-site spec pin)
+- [x] 2.2 Rebuild the documentation site through the **maintainer toolchain** and confirm the strict build passes — zero invalid links or anchors (ADR-0007)
 - [ ] 2.3 Commit as `docs(guidelines): define the intent-material template in Writing Issues (#23)`
 
 ## 3. Contributor, agent, and decision pointers (code zone)

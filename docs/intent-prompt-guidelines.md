@@ -40,6 +40,43 @@ A prompt that already names actor, deliverables, rules, and out-of-scope
 gives those skills better material — a vague intent gets interrogated into
 these sections anyway, so front-load them.
 
+## Writing Issues
+
+Every change starts as an issue, and a well-formed issue is ready-to-paste
+**intent material**: the issue body becomes the `/opsx-new` or `/opsx-propose`
+prompt without rewriting. New issues follow this template — six required
+sections, in this order:
+
+- **Context** — the problem or opportunity, with enough background that a
+  reader new to the thread understands it.
+- **Suggested change name** — a kebab-case name for the change the issue will
+  track; the change is created from it.
+- **Actor** — who receives the value and at what boundary they operate.
+- **Deliverables** — the artifacts the change must produce, and nothing more.
+- **Rules** — observable invariants, SHALL/MUST phrasing. This is what
+  determines whether the scenarios and acceptance tests work.
+- **Out of scope** — what the change must NOT build.
+
+Five labeled sections are available as additions, each written as a bolded
+label followed by its content:
+
+- **Gate** — a precondition that must hold before the change starts, for a
+  change that waits on another's landing.
+- **Trigger** — the condition that activates a change deliberately deferred
+  until then.
+- **Decisions inside the change** — choices the issue explicitly delegates to
+  the change's own planning, so the pipeline does not stall on them.
+- **Provenance** — where the idea was previously recorded: a prior change's
+  out-of-scope note, council notes, open questions.
+- **References** — links to related artifacts: changes, ADRs, documents.
+
+On GitHub, this template is enforced by the issue form
+(`.github/ISSUE_TEMPLATE/change.yml`, with blank issues disabled via
+`.github/ISSUE_TEMPLATE/config.yml`): it pre-fills the six required sections
+and offers one optional field for the labeled additions. Repositories on
+other hosts replicate the convention natively — the template above is the
+standard, and the form is this repository's implementation of it.
+
 ## Choosing the actor: redefine the boundary
 
 For non-end-user actors, the mental move is to **redefine the system
