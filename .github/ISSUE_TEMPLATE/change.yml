@@ -1,0 +1,75 @@
+name: Change issue
+description: Every change starts as an issue that tracks its whole lifecycle — propose yours on the intent-material template.
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: The problem or opportunity, with enough background that a reader new to the thread understands it.
+      placeholder: |
+        What is going wrong, or what is the opportunity?
+        What did exploration or prior changes already record about it?
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-change-name
+    attributes:
+      label: Suggested change name
+      description: A kebab-case name for the OpenSpec change this issue will track (for example, add-experiment-references).
+      placeholder: |
+        `suggested-change-name`
+    validations:
+      required: true
+  - type: textarea
+    id: actor
+    attributes:
+      label: Actor
+      description: Who receives the value and at what boundary they operate — the actor the change's scenarios are written for.
+      placeholder: |
+        <who they are and what boundary they operate at>
+    validations:
+      required: true
+  - type: textarea
+    id: deliverables
+    attributes:
+      label: Deliverables
+      description: The artifacts this change must produce — documents, configuration, code, specs — and nothing more.
+      placeholder: |
+        - <artifact>
+    validations:
+      required: true
+  - type: textarea
+    id: rules
+    attributes:
+      label: Rules
+      description: Observable invariants in SHALL/MUST phrasing — what determines whether the change's scenarios and acceptance tests work.
+      placeholder: |
+        - The system MUST ...
+    validations:
+      required: true
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope
+      description: What the change must NOT build — the boundary that stops the pipeline generating unrequested work.
+      placeholder: |
+        <what the change must not do>
+    validations:
+      required: true
+  - type: textarea
+    id: additional-sections
+    attributes:
+      label: Additional sections (optional)
+      description: >-
+        Optional labeled sections, each as a bolded label followed by its
+        content — Gate, Trigger, Decisions inside the change, Provenance,
+        References. See the Writing Issues section of
+        docs/intent-prompt-guidelines.md.
+      placeholder: |
+        **Gate:** <the precondition that must hold before this change starts>
+        **Trigger:** <the condition that activates a change deliberately deferred until then>
+        **Decisions inside the change:** <choices explicitly delegated to the change's own planning>
+        **Provenance:** <where this idea was previously recorded>
+        **References:** <links to related artifacts>
+    validations:
+      required: false

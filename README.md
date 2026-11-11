@@ -29,8 +29,8 @@ workflow and grow with the store's first specs.
 
 Takes a fresh experiment repository from nothing to a connected one:
 scaffolding installed, store registered, reference declared, doctor green,
-and spec-validation CI in place per your host. The same steps were verified
-end to end on [dune-metadex](https://github.com/DUNE/dune-metadex); the full
+and spec-validation CI and the issue form in place per your host. The same
+steps were verified end to end on [dune-metadex](https://github.com/DUNE/dune-metadex); the full
 explanation, an adopting-into-an-existing-repository variant, and an
 agent-assisted bootstrap prompt live in [docs/setup.md](docs/setup.md).
 
@@ -65,22 +65,28 @@ agent-assisted bootstrap prompt live in [docs/setup.md](docs/setup.md).
    - `AGENTS.md`
    - `docs/intent-prompt-guidelines.md` (referenced by `AGENTS.md`)
 
-5. **Add spec-validation CI, conditional on your host.** GitHub-hosted
-   repositories copy the provided workflow from the local store checkout
+5. **Add the host-conditional GitHub files: spec-validation CI and the issue
+   form.** GitHub-hosted repositories copy both from the local store checkout
    you registered in step 2 (for example `~/openspec/hep-metadex`) into the
-   same path here:
+   same paths here:
 
    ```bash
-   mkdir -p .github/workflows
+   mkdir -p .github/workflows .github/ISSUE_TEMPLATE
    cp ~/openspec/hep-metadex/.github/workflows/validate.yml .github/workflows/validate.yml
+   cp ~/openspec/hep-metadex/.github/ISSUE_TEMPLATE/change.yml ~/openspec/hep-metadex/.github/ISSUE_TEMPLATE/config.yml .github/ISSUE_TEMPLATE/
    ```
 
-   It runs `openspec validate --all` over all specs and changes, gating on
-   `valid: true` (non-strict, per
+   The workflow runs `openspec validate --all` over all specs and changes,
+   gating on `valid: true` (non-strict, per
    [ADR-0003](adr/0003-fenced-gherkin-single-source-validation-gate.md)),
-   with the OpenSpec CLI pinned to 1.16.0. Repositories on other hosts wire
-   the equivalent gate into their own CI — the command is the same; the kit
-   provides no implementation for other hosts
+   with the OpenSpec CLI pinned to 1.16.0. The issue form makes new issues
+   open through the intent-material template — the six required sections
+   plus the optional labeled additions, defined in the
+   [Writing Issues](docs/intent-prompt-guidelines.md#writing-issues) section
+   of the guidelines doc copied in step 4 — with blank issues disabled.
+   Repositories on other hosts wire the equivalent validation gate into
+   their own CI and replicate the issue-authoring convention in their own
+   issue tracker — the kit provides no implementation for other hosts
    ([ADR-0005](adr/0005-distribute-spec-validation-ci-as-host-conditional-scaffolding.md)).
 
 6. **Declare the Store reference** in your `openspec/config.yaml` — and never

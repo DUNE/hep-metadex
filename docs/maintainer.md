@@ -45,6 +45,7 @@ manifest when syncing with the template:
 | `AGENTS.md` | Added a pointer to `docs/intent-prompt-guidelines.md` for intent-prompt authoring | Project-specific contributor guidance; re-apply the pointer after a template sync |
 | `LICENSE` | Full Apache-2.0 license at the repository root instead of the template's MIT `LICENSE.md` | Deliberate divergence: a cross-institution standards artifact needs the explicit patent grant and contribution terms — see [ADR-0004](../adr/0004-apache-2-license-diverging-from-template-mit.md) |
 | `.github/workflows/validate.yml` | Spec-validation CI added (the template ships no CI); distributed with the [workflow scaffolding](../glossary/technical.md) — GitHub-hosted adopters copy this file at bootstrap ([ADR-0005](../adr/0005-distribute-spec-validation-ci-as-host-conditional-scaffolding.md)) | Gates `openspec validate --all` on `valid: true`, non-strict, per [ADR-0003](../adr/0003-fenced-gherkin-single-source-validation-gate.md); the OpenSpec CLI version is pinned in the workflow |
+| `.github/ISSUE_TEMPLATE/` | Issue form added (the template ships none): the intent-material change form (`change.yml`) plus the config disabling blank issues (`config.yml`); distributed with the [workflow scaffolding](../glossary/technical.md) — GitHub-hosted adopters copy both at bootstrap ([ADR-0008](../adr/0008-route-workflow-conventions-to-kit-layers.md) routes host-conditional automation to `.github/`) | Standardizes issue authoring on the intent-material template ([#23](https://github.com/DUNE/hep-metadex/issues/23)); the form is the GitHub implementation of a host-neutral convention — repositories on other hosts replicate it natively |
 | Not installed | `package.json`, `package-lock.json`, `skills-lock.json` | Outside the install guide's file list; do not add during a sync without a deliberate decision |
 | `pyproject.toml`, `uv.lock`, `.python-version` | Repo-local [maintainer toolchain](../glossary/technical.md) files the template never ships ([ADR-0006](../adr/0006-python-uv-as-repo-local-maintainer-toolchain.md)) | Outside the install guide's file list; do not add during a sync without a deliberate decision |
 | `zensical.toml`, `tools/`, `.github/workflows/docs.yml` | Repo-local [documentation site](../glossary/technical.md) tooling the template never ships ([ADR-0007](../adr/0007-publish-zensical-docs-site-on-github-pages.md)) | Outside the install guide's file list; do not add during a sync without a deliberate decision |
@@ -107,6 +108,12 @@ manifest when syncing with the template:
 - `.agents/skills/` provides collaboration skills: `grill-me`, `c4-diagrams`,
   `architectural-decision-records`, `test-driven-development`,
   `gherkin-authoring`, `glossary`, `spec-as-source`, and more.
+- The kit's layers divide responsibility by the routing rule in
+  [ADR-0008](../adr/0008-route-workflow-conventions-to-kit-layers.md): the
+  schema for artifact structure inside changes, `openspec/config.yaml` rules
+  for per-stage discipline, skills for agent-triggered discipline, commands
+  for procedure automation, the intent-prompt guidelines doc for authoring
+  guidance, and `.github/` for host-conditional automation.
 - `opencode.json.example` is an optional stub for per-project OpenCode
   configuration. OpenCode reads your global config
   (`~/.config/opencode/opencode.json`), which applies to every project, so
