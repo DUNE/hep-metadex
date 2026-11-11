@@ -17,12 +17,12 @@
 
 - [x] 2.1 Add the "Writing Issues" section to `docs/intent-prompt-guidelines.md` per design D5 — directly after the existing Template section; define the six required sections and the five optional labeled sections with one-line use-when guidance each; note that the GitHub form pre-fills the sections with blank issues disabled and that repositories on other hosts replicate the convention natively; the document stays at its current path (docs-site spec pin)
 - [x] 2.2 Rebuild the documentation site through the **maintainer toolchain** and confirm the strict build passes — zero invalid links or anchors (ADR-0007)
-- [ ] 2.3 Commit as `docs(guidelines): define the intent-material template in Writing Issues (#23)`
+- [x] 2.3 Commit as `docs(guidelines): define the intent-material template in Writing Issues (#23)`
 
 ## 3. Contributor, agent, and decision pointers (code zone)
 
-- [ ] 3.1 Extend CONTRIBUTING.md's "Every Change Starts as an Issue" section per design D6 — point to the issue form and the Writing Issues guidance
-- [ ] 3.2 Extend CONTRIBUTING.md's "Where Decisions Live" section per design D7 — reference ADR-0008's kit-layering routing rule for contributors deciding where a new convention belongs
+- [x] 3.1 Extend CONTRIBUTING.md's "Every Change Starts as an Issue" section per design D6 — point to the issue form and the Writing Issues guidance
+- [x] 3.2 Extend CONTRIBUTING.md's "Where Decisions Live" section per design D7 — reference ADR-0008's kit-layering routing rule for contributors deciding where a new convention belongs
 - [ ] 3.3 Commit as `docs(contributing): point the issue policy and decisions sections at the template and routing rule (#23)`
 - [ ] 3.4 Extend AGENTS.md's `docs/intent-prompt-guidelines.md` pointer per design D6 — agent-authored issues follow the **intent material** template through the existing guidelines-doc pointer; no new authoring skill
 - [ ] 3.5 Commit as `docs(agents): extend the guidelines pointer to issue authoring (#23)`

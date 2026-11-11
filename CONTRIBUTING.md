@@ -13,6 +13,11 @@ lifecycle — proposal, implementation, verification, archive — so it stays
 open until the change archives. The issue tracker is publicly viewable,
 open and closed tickets alike.
 
+New issues open through the [change form](.github/ISSUE_TEMPLATE/change.yml),
+which pre-fills the [intent material](glossary/domain.md) template with
+blank issues disabled. The template and its optional labeled sections are
+defined in [Writing Issues](docs/intent-prompt-guidelines.md#writing-issues).
+
 ## Pull Requests
 
 All work lands through pull requests:
@@ -66,3 +71,10 @@ stage. If your change commits the project long-term, expect the review to
 ask for one. See [docs/governance.md](docs/governance.md) for decision
 rights and the review bar, and [docs/maintainer.md](docs/maintainer.md) for
 how this repository relates to its upstream template.
+
+Where each class of workflow convention lives — the schema for artifact
+structure inside changes, `openspec/config.yaml` rules for per-stage
+discipline, skills, commands, the authoring-guidelines doc, and `.github/`
+for host-conditional automation — is decided by the kit-layering routing
+rule in
+[ADR-0008](adr/0008-route-workflow-conventions-to-kit-layers.md).
