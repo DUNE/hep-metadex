@@ -33,12 +33,12 @@
 - [x] 4.2 Widen the README quick start's host-conditional step per design D3 — spec-validation CI and the issue form (`.github/ISSUE_TEMPLATE/`, both files, one item) as the host-conditional kit files, with copy commands for each; GitHub-hosted adopters copy verbatim, other hosts get the named convention
 - [x] 4.3 Extend `docs/setup.md` per design D3 — the agent-assisted bootstrap prompt's host-conditional step covers both files; the two-channels prose and mermaid diagram gain the issue form beside validate.yml as a GitHub-hosts-only kit node
 - [ ] 4.4 Confirm the dune-metadex form has landed (4.1 merged) before the quick-start claim merges — the MODIFIED quick-start requirement's MUST
-- [ ] 4.5 Commit as `docs(readme): add the issue form to the host-conditional bootstrap steps (#23)`
+- [x] 4.5 Commit as `docs(readme): add the issue form to the host-conditional bootstrap steps (#23)`
 
 ## 5. Maintainer-guide records (code zone)
 
-- [ ] 5.1 Add the divergence-manifest row for `.github/ISSUE_TEMPLATE/` per design D8 — kit the template never ships, distributed host-conditionally so GitHub-hosted adopters copy it at bootstrap, citing issue #23 and ADR-0008; framed like the validate.yml row
-- [ ] 5.2 Add the routing-rule reference to `docs/maintainer.md`'s Repository Configuration section per design D7 — the section already maps skills, commands, and config to their roles; the ADR-0008 reference completes the map
+- [x] 5.1 Add the divergence-manifest row for `.github/ISSUE_TEMPLATE/` per design D8 — kit the template never ships, distributed host-conditionally so GitHub-hosted adopters copy it at bootstrap, citing issue #23 and ADR-0008; framed like the validate.yml row
+- [x] 5.2 Add the routing-rule reference to `docs/maintainer.md`'s Repository Configuration section per design D7 — the section already maps skills, commands, and config to their roles; the ADR-0008 reference completes the map
 - [ ] 5.3 Commit as `docs(maintainer): record the issue-form divergence and routing-rule reference (#23)`
 
 ## 6. Verification and completion
