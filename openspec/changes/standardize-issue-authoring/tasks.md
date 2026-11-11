@@ -32,7 +32,7 @@
 - [x] 4.1 Open an issue (and PR) on dune-metadex installing `.github/ISSUE_TEMPLATE/` from the hep-metadex checkout — the dogfood precondition for the quick-start claim (design D4; the validate.yml precedent, dune-metadex#4); cross-repo coordination, not a commit in this repository. Done: the issue is [DUNE/dune-metadex#5](https://github.com/DUNE/dune-metadex/issues/5) and the install PR is [DUNE/dune-metadex#6](https://github.com/DUNE/dune-metadex/pull/6), copying verbatim from this apply branch — dune-metadex merges first, then this change's implementation PR (4.4)
 - [x] 4.2 Widen the README quick start's host-conditional step per design D3 — spec-validation CI and the issue form (`.github/ISSUE_TEMPLATE/`, both files, one item) as the host-conditional kit files, with copy commands for each; GitHub-hosted adopters copy verbatim, other hosts get the named convention
 - [x] 4.3 Extend `docs/setup.md` per design D3 — the agent-assisted bootstrap prompt's host-conditional step covers both files; the two-channels prose and mermaid diagram gain the issue form beside validate.yml as a GitHub-hosts-only kit node
-- [ ] 4.4 Confirm the dune-metadex form has landed (4.1 merged) before the quick-start claim merges — the MODIFIED quick-start requirement's MUST
+- [x] 4.4 Confirm the dune-metadex form has landed (4.1 merged) before the quick-start claim merges — the MODIFIED quick-start requirement's MUST. Confirmed: [DUNE/dune-metadex#6](https://github.com/DUNE/dune-metadex/pull/6) merged 2026-11-11 and both `.github/ISSUE_TEMPLATE/` files are on dune-metadex `main` — the quick-start claim may merge
 - [x] 4.5 Commit as `docs(readme): add the issue form to the host-conditional bootstrap steps (#23)`
 
 ## 5. Maintainer-guide records (code zone)
