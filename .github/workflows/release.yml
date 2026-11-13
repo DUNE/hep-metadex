@@ -1,0 +1,138 @@
+name: Kit release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Repo-local maintainer automation — never part of the workflow scaffolding
+# adopters copy (the divergence manifest records this row). Per the DUNE
+# organization's Actions policy, only actions owned by DUNE, created by
+# GitHub, or on the org allowlist may be used: this workflow uses
+# actions/checkout plus the runner's preinstalled git and gh, nothing else
+# (the same constraint docs.yml records). Re-evaluate after any hosting move.
+
+# Kit releases serialize: a queued bump releases against its own merge
+# commit, and a non-bump run that lands after a release re-checks against
+# the new tag and exits without releasing.
+concurrency:
+  group: kit-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: cut vX.Y.Z on a kit version bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+        with:
+          # Full history and tags: bump detection diffs .metadex-kit
+          # against the latest v* tag.
+          fetch-depth: 0
+
+      - name: Detect a kit version bump
+        id: bump
+        run: |
+          set -euo pipefail
+          version="$(awk -F': *' '/^version:/ {print $2; exit}' .metadex-kit)"
+          if [ -z "$version" ]; then
+            echo ".metadex-kit has no version field; refusing to continue." >&2
+            exit 1
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          latest_tag="$(git tag --list 'v*' --sort=-v:refname | head -n 1 || true)"
+          if [ -z "$latest_tag" ]; then
+            # No prior release: the version file's introduction is the bump.
+            echo "bumped=true" >> "$GITHUB_OUTPUT"
+            echo "No prior v* tag; the version file's introduction is the bump to v${version}."
+            exit 0
+          fi
+          if git diff --quiet "${latest_tag}" HEAD -- .metadex-kit; then
+            echo "bumped=false" >> "$GITHUB_OUTPUT"
+            echo ".metadex-kit unchanged since ${latest_tag}; no release."
+          else
+            echo "bumped=true" >> "$GITHUB_OUTPUT"
+            echo ".metadex-kit changed since ${latest_tag}; releasing v${version}."
+          fi
+
+      - name: Gate on the changelog section and the CLI pin
+        id: gate
+        if: steps.bump.outputs.bumped == 'true'
+        run: |
+          set -euo pipefail
+          version="${{ steps.bump.outputs.version }}"
+          tag="v${version}"
+
+          # The release body is the changelog's section for this version; a
+          # missing section fails the release before anything publishes.
+          awk -v ver="## [${version}]" '
+            index($0, ver) == 1 { found = 1; print; next }
+            found && /^## / { exit }
+            found { print }
+          ' CHANGELOG.md > "${RUNNER_TEMP:-/tmp}/section.md"
+          if [ ! -s "${RUNNER_TEMP:-/tmp}/section.md" ]; then
+            echo "CHANGELOG.md has no section for [${version}]; refusing to release." >&2
+            exit 1
+          fi
+
+          # The kit's declared CLI pin must match the validation workflow's
+          # pin (validate.yml carries a leading v; .metadex-kit does not).
+          kit_cli="$(awk -F': *' '/^cli:/ {print $2; exit}' .metadex-kit)"
+          wf_cli="$(awk -F': *' '/OPENSPEC_VERSION:/ {sub(/^v/, "", $2); print $2; exit}' .github/workflows/validate.yml)"
+          if [ -z "$kit_cli" ] || [ "$kit_cli" != "$wf_cli" ]; then
+            echo "CLI pin mismatch: .metadex-kit declares ${kit_cli:-<missing>} but validate.yml pins ${wf_cli:-<missing>}; refusing to release." >&2
+            exit 1
+          fi
+
+          # Re-releasing an existing version means a kit change forgot its
+          # version bump.
+          if git rev-parse -q --verify "refs/tags/${tag}" >/dev/null; then
+            echo "Tag ${tag} already exists; a kit change must bump the version in .metadex-kit." >&2
+            exit 1
+          fi
+
+          echo "cli=${kit_cli}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish the kit release
+        if: steps.bump.outputs.bumped == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          version="${{ steps.bump.outputs.version }}"
+          tag="v${version}"
+          bundle="metadex-kit-${version}.tar.gz"
+
+          # The bundle is exactly the copy-list plus .metadex-kit and
+          # KIT-MANIFEST.yaml, at their natural repository paths.
+          tar -czf "${RUNNER_TEMP:-/tmp}/${bundle}" \
+            .agents/skills/ \
+            .opencode/commands/ .opencode/skills/ .opencode/agent/ \
+            openspec/schemas/intent-driven/ \
+            AGENTS.md \
+            docs/intent-prompt-guidelines.md \
+            .github/workflows/validate.yml \
+            .github/ISSUE_TEMPLATE/ \
+            .metadex-kit \
+            KIT-MANIFEST.yaml
+          (
+            cd "${RUNNER_TEMP:-/tmp}"
+            sha256sum "${bundle}" > SHA256SUMS
+          )
+
+          {
+            cat "${RUNNER_TEMP:-/tmp}/section.md"
+            echo
+            echo "---"
+            echo "Requires OpenSpec CLI v${{ steps.gate.outputs.cli }} — declared in \`.metadex-kit\` and pinned in the bundled \`.github/workflows/validate.yml\`."
+          } > "${RUNNER_TEMP:-/tmp}/release-body.md"
+
+          gh release create "${tag}" \
+            "${RUNNER_TEMP:-/tmp}/${bundle}" "${RUNNER_TEMP:-/tmp}/SHA256SUMS" \
+            --target "$GITHUB_SHA" \
+            --title "Kit ${tag}" \
+            --notes-file "${RUNNER_TEMP:-/tmp}/release-body.md"

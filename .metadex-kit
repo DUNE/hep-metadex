@@ -1,0 +1,5 @@
+# The workflow scaffolding (kit) version — source-side it triggers the
+# release workflow; shipped verbatim in the kit bundle it is each
+# install's provenance stamp. Nothing appends to this file.
+version: 1.0.0
+cli: 1.16.0

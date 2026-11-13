@@ -18,14 +18,16 @@ Content reaches an experiment repository through two independent channels
    one-line summaries plus fetch commands — into artifact workflows, and the
    agent fetches a spec with `openspec show <spec-id> --type spec --store
    hep-metadex` only when a change needs it.
-2. **[Workflow scaffolding](../glossary/technical.md) flows by template
-   install.** The schema, skills, commands, subagents, and agent guidance
-   replicate by copying files from a hep-metadex checkout at bootstrap time —
-   and, on GitHub hosts, so do the spec-validation workflow and the issue
-   form
+2. **[Workflow scaffolding](../glossary/technical.md) flows by versioned
+   [kit release](../glossary/technical.md).** The schema, skills, commands,
+   subagents, and agent guidance replicate by installing a semantically
+   versioned, checksum-verified release bundle at bootstrap time — and, on
+   GitHub hosts, the bundle also carries the spec-validation workflow and the
+   issue form
    ([ADR-0005](../adr/0005-distribute-spec-validation-ci-as-host-conditional-scaffolding.md)).
    The store never distributes them — store references inject the spec index
-   only — and experiments need the kit in their own tree regardless.
+   only — and experiments need the kit in their own tree regardless
+   ([ADR-0009](../adr/0009-distribute-workflow-scaffolding-as-versioned-kit-releases.md)).
 
 ```mermaid
 flowchart LR
@@ -35,7 +37,7 @@ flowchart LR
         OS["openspec/"]
         SPECS["specs/"]
         CHANGES["changes/"]
-        subgraph KIT["workflow scaffolding — what the bootstrap copies"]
+        subgraph KIT["workflow scaffolding — what the kit release bundle installs"]
             K1[".agents/skills/"]
             K2[".opencode/<br/>(commands and agent definitions)"]
             K3["openspec/schemas/intent-driven/"]
@@ -43,6 +45,7 @@ flowchart LR
             K5["docs/intent-prompt-guidelines.md"]
             K6[".github/workflows/validate.yml<br/>(GitHub hosts only)"]
             K7[".github/ISSUE_TEMPLATE/<br/>(GitHub hosts only)"]
+            K8[".metadex-kit + KIT-MANIFEST.yaml<br/>(version + bill of materials)"]
         end
         ROOT --- STORE
         ROOT --- OS
@@ -53,7 +56,7 @@ flowchart LR
         CFG["openspec/config.yaml<br/>references: hep-metadex"]
     end
     SPECS ==>|"channel 1 — read-only spec index injection"| CFG
-    KIT ==>|"channel 2 — template install at bootstrap"| EX
+    KIT ==>|"channel 2 — versioned kit release at bootstrap"| EX
 ```
 
 Because the channels are separate, an experiment's own specs and changes stay
@@ -72,7 +75,10 @@ hep-metadex store is this repository:
 | `openspec/specs/` | The store's published [common capability](../glossary/domain.md) specifications |
 | `openspec/changes/` | In-flight common-spec changes (`openspec/changes/archive/` holds completed ones) |
 | `openspec/schemas/intent-driven/` | The local schema copy, part of the workflow scaffolding |
-| `.agents/`, `.opencode/`, `AGENTS.md`, `docs/` | Workflow scaffolding and documentation (the template channel) |
+| `.metadex-kit` | The kit version file — source-side it triggers the release workflow; installed from a [kit release](../glossary/technical.md) it is the experiment's provenance stamp ([ADR-0009](../adr/0009-distribute-workflow-scaffolding-as-versioned-kit-releases.md)) |
+| `KIT-MANIFEST.yaml` | The kit's bill of materials: every copy-list path with its ownership class and refresh route |
+| `CHANGELOG.md` | The kit changelog — the single source of GitHub release bodies (repository documentation, never shipped in the bundle) |
+| `.agents/`, `.opencode/`, `AGENTS.md`, `docs/` | Workflow scaffolding and documentation (the kit release channel) |
 
 The registered content of the store is its specs and changes — that is what
 `--store hep-metadex` routes to and what a [Store reference](../glossary/technical.md)
@@ -205,22 +211,27 @@ First verify the prerequisites and stop with a clear report if any are missing:
 
 Then bootstrap this repository:
 1. Run `openspec init` for the agent tools this repository uses.
-2. Install the workflow scaffolding from the registered hep-metadex store
-   checkout: `.agents/skills/`, `.opencode/` (commands and agent
-   definitions), `openspec/schemas/intent-driven/`, `AGENTS.md`, and
-   `docs/intent-prompt-guidelines.md`.
-3. Add the host-conditional GitHub files — spec-validation CI and the issue
-   form — conditional on this repository's host.
-   - GitHub-hosted: create `.github/workflows/` and `.github/ISSUE_TEMPLATE/`
-     if they do not exist, then copy `.github/workflows/validate.yml` and
-     `.github/ISSUE_TEMPLATE/` (`change.yml` and `config.yml`) from the
-     registered hep-metadex store checkout into the same paths here.
-   - Hosted elsewhere: wire the equivalent gate into this repository's own
-     CI — run `openspec validate --all` over all specs and changes and fail
-     unless it reports `valid: true`, with the OpenSpec CLI pinned to
-     1.16.0 — and replicate the intent-material issue convention in this
-     host's own issue tracker (see docs/intent-prompt-guidelines.md in the
-     hep-metadex store). No implementation is provided for other hosts.
+2. Install the workflow scaffolding from the latest hep-metadex kit release:
+   fetch the bundle and its SHA256SUMS from
+   https://github.com/DUNE/hep-metadex/releases/latest, verify with
+   `sha256sum -c`, and extract in the repository root — the bundle lays the
+   kit out at its natural paths, including the `.metadex-kit` provenance
+   stamp and `KIT-MANIFEST.yaml`. If this repository already has an
+   `AGENTS.md`, merge the kit's pointers into it rather than overwriting —
+   the manifest marks it merge-guidance.
+3. Handle the host-conditional GitHub files — spec-validation CI and the
+   issue form — conditional on this repository's host.
+   - GitHub-hosted: confirm the extraction placed
+     `.github/workflows/validate.yml` and `.github/ISSUE_TEMPLATE/`
+     (`change.yml` and `config.yml`) from the bundle.
+   - Hosted elsewhere: remove the extracted `.github/` kit files and wire
+     the equivalent gate into this repository's own CI — run
+     `openspec validate --all` over all specs and changes and fail unless
+     it reports `valid: true`, with the OpenSpec CLI pinned to the version
+     the release declares — and replicate the intent-material issue
+     convention in this host's own issue tracker (see
+     docs/intent-prompt-guidelines.md in the hep-metadex store). No
+     implementation is provided for other hosts.
 4. Write `openspec/config.yaml` with: `schema: intent-driven`; a
    `references:` block naming the hep-metadex store id and remote
    (https://github.com/DUNE/hep-metadex.git); a `context:` block describing

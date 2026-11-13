@@ -98,6 +98,43 @@ the declared remote), not freshness. So:
 - **After a store change merges, pull before relying on it** in the next
   experiment change.
 
+## Kit Releases (Installing and Updating the Workflow Scaffolding)
+
+The [workflow scaffolding](../glossary/technical.md) ships as semantically
+versioned, checksum-verified [kit releases](../glossary/technical.md)
+([ADR-0009](../adr/0009-distribute-workflow-scaffolding-as-versioned-kit-releases.md)).
+The store checkout you registered serves specs (channel 1); the kit comes
+from releases (channel 2) — a decoupling that keeps specs fresh while the
+kit stays pinnable.
+
+Install or update the kit in your repository by fetching a release's bundle
+and verifying it against the published checksums:
+
+```bash
+# latest release
+curl -fsSL -o SHA256SUMS https://github.com/DUNE/hep-metadex/releases/latest/download/SHA256SUMS
+bundle="$(awk '{print $2}' SHA256SUMS)"
+curl -fsSL -o "$bundle" "https://github.com/DUNE/hep-metadex/releases/latest/download/$bundle"
+sha256sum -c SHA256SUMS
+tar -xzf "$bundle"
+```
+
+For a pinned release, fetch `metadex-kit-<version>.tar.gz` and its
+`SHA256SUMS` from that release's page instead of the `latest` alias.
+
+- **Verify before extracting** — `sha256sum -c` must pass; the checksums are
+  published with the release.
+- **Read your stamp.** The installed `.metadex-kit` names the release the
+  kit came from and the OpenSpec CLI version it requires — it is the
+  provenance record for your repository.
+- **Watch what changed.** Each release's body is its
+  [changelog](../CHANGELOG.md) section, and the changelog itself records
+  every kit release with its change issues.
+- **Mind the ownership classes.** `KIT-MANIFEST.yaml` maps every kit path to
+  its class: CLI-owned paths (`.opencode/commands/`, `.opencode/skills/`)
+  refresh through `openspec update`, never a kit copy; `AGENTS.md` is
+  merge-guidance; `openspec/config.yaml` is yours and never touched.
+
 ## CLI Version Pinning and Upgrades
 
 Both the store and experiment CI pin the OpenSpec CLI (currently
@@ -117,6 +154,12 @@ formats may change between releases.
   recognizes fenced scenarios.
 - **Bump the pin in the same change** that validates the upgrade, so CI and
   contributors' machines stay aligned.
+- **The kit declares its CLI requirement too.** Every kit release declares
+  the CLI version it requires (`.metadex-kit` records it, the release body
+  repeats it), and the release workflow cross-checks it against
+  `validate.yml`'s pin. Bumping the CLI pin is itself a kit change: it lands
+  with a kit version bump and changelog entry, and the release cuts on merge
+  (see the [maintainer guide](maintainer.md#kit-releases)).
 
 ## Known Issue: Validator Warnings on Fenced Scenarios
 
