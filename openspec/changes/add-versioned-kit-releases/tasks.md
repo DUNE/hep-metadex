@@ -16,12 +16,12 @@
 
 ## 2. Release workflow (hep-metadex)
 
-- [ ] 2.1 Create `.github/workflows/release.yml` (repo-local, never kit): push-to-`main` and `workflow_dispatch` triggers; `contents: write` permission; only `actions/checkout` plus the runner's preinstalled `git` and `gh` — with the DUNE-org action-policy comment, as `docs.yml` already carries (design D5)
-- [ ] 2.2 Implement bump detection: diff `.metadex-kit` against the latest `v*` tag; a changed version is the bump, and no prior tag existing counts the version file's introduction as a bump — the v1.0.0 path
-- [ ] 2.3 Implement the gates: extract the `## [X.Y.Z]` section from `CHANGELOG.md` and fail without publishing when it is missing; cross-check `.metadex-kit`'s `cli:` against `validate.yml`'s `OPENSPEC_VERSION` and fail on mismatch
-- [ ] 2.4 Implement publication: tag the merge commit `vX.Y.Z`; assemble `metadex-kit-<version>.tar.gz` containing exactly the copy-list plus `.metadex-kit` and `KIT-MANIFEST.yaml` at their natural paths; generate `SHA256SUMS` covering the bundle; `gh release create` with the extracted changelog section as the body and the required OpenSpec CLI version declared
-- [ ] 2.5 Verify the gates against scratch states: a scratch tree with a bumped version but no matching changelog section fails extraction; a scratch `cli:` pin mismatch fails the cross-check; bundle assembly over the current tree produces exactly the copy-list paths and a verifying checksum (discard scratch artifacts afterward)
-- [ ] 2.6 Verify the workflow's footprint by construction: review it end-to-end and confirm it creates tags and releases only — no commit or push to `main` anywhere — and contains no release-please-style PR automation
+- [x] 2.1 Create `.github/workflows/release.yml` (repo-local, never kit): push-to-`main` and `workflow_dispatch` triggers; `contents: write` permission; only `actions/checkout` plus the runner's preinstalled `git` and `gh` — with the DUNE-org action-policy comment, as `docs.yml` already carries (design D5)
+- [x] 2.2 Implement bump detection: diff `.metadex-kit` against the latest `v*` tag; a changed version is the bump, and no prior tag existing counts the version file's introduction as a bump — the v1.0.0 path
+- [x] 2.3 Implement the gates: extract the `## [X.Y.Z]` section from `CHANGELOG.md` and fail without publishing when it is missing; cross-check `.metadex-kit`'s `cli:` against `validate.yml`'s `OPENSPEC_VERSION` and fail on mismatch
+- [x] 2.4 Implement publication: tag the merge commit `vX.Y.Z`; assemble `metadex-kit-<version>.tar.gz` containing exactly the copy-list plus `.metadex-kit` and `KIT-MANIFEST.yaml` at their natural paths; generate `SHA256SUMS` covering the bundle; `gh release create` with the extracted changelog section as the body and the required OpenSpec CLI version declared
+- [x] 2.5 Verify the gates against scratch states: a scratch tree with a bumped version but no matching changelog section fails extraction; a scratch `cli:` pin mismatch fails the cross-check; bundle assembly over the current tree produces exactly the copy-list paths and a verifying checksum (discard scratch artifacts afterward)
+- [x] 2.6 Verify the workflow's footprint by construction: review it end-to-end and confirm it creates tags and releases only — no commit or push to `main` anywhere — and contains no release-please-style PR automation
 
 ## 3. Documentation (hep-metadex)
 
