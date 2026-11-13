@@ -9,10 +9,10 @@
 
 ## 1. Kit identity files (hep-metadex)
 
-- [ ] 1.1 Create `.metadex-kit` at the repository root: `version: 1.0.0`, `cli: 1.16.0` (design D1 — the file ships verbatim; nothing appends to it)
-- [ ] 1.2 Create `KIT-MANIFEST.yaml` at the repository root mapping every copy-list path — `.agents/skills/`, `.opencode/` (commands, skills, agent definitions), `openspec/schemas/intent-driven/`, `AGENTS.md`, `docs/intent-prompt-guidelines.md`, `.github/workflows/validate.yml`, `.github/ISSUE_TEMPLATE/`, `.metadex-kit`, and `KIT-MANIFEST.yaml` itself — to exactly one ownership class (cli-owned / kit-owned / merge-guidance / never-touch) with its refresh route (design D6)
-- [ ] 1.3 Create `CHANGELOG.md` at the repository root with a `## [1.0.0] - <date>` section: Keep a Changelog categories, every entry referencing its change issue in the `(#N)` style (design D3)
-- [ ] 1.4 Verify the identity files: `.metadex-kit`'s `cli:` matches `validate.yml`'s `OPENSPEC_VERSION` (1.16.0); every copy-list path appears in `KIT-MANIFEST.yaml` exactly once; the changelog section extracts cleanly between its heading and the next heading
+- [x] 1.1 Create `.metadex-kit` at the repository root: `version: 1.0.0`, `cli: 1.16.0` (design D1 — the file ships verbatim; nothing appends to it)
+- [x] 1.2 Create `KIT-MANIFEST.yaml` at the repository root mapping every copy-list path — `.agents/skills/`, `.opencode/` (commands, skills, agent definitions), `openspec/schemas/intent-driven/`, `AGENTS.md`, `docs/intent-prompt-guidelines.md`, `.github/workflows/validate.yml`, `.github/ISSUE_TEMPLATE/`, `.metadex-kit`, and `KIT-MANIFEST.yaml` itself — to exactly one ownership class (cli-owned / kit-owned / merge-guidance / never-touch) with its refresh route (design D6)
+- [x] 1.3 Create `CHANGELOG.md` at the repository root with a `## [1.0.0] - <date>` section: Keep a Changelog categories, every entry referencing its change issue in the `(#N)` style (design D3)
+- [x] 1.4 Verify the identity files: `.metadex-kit`'s `cli:` matches `validate.yml`'s `OPENSPEC_VERSION` (1.16.0); every copy-list path appears in `KIT-MANIFEST.yaml` exactly once; the changelog section extracts cleanly between its heading and the next heading
 
 ## 2. Release workflow (hep-metadex)
 

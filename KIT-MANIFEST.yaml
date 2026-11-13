@@ -1,0 +1,22 @@
+# KIT-MANIFEST — the kit's bill of materials: every copy-list path mapped
+# to exactly one ownership class, with the refresh route each class
+# prescribes. Shipped in the kit bundle; installs and the update path
+# reconcile by it (ADR-0009).
+kit: hep-metadex
+classes:
+  cli-owned: refreshed through the OpenSpec CLI (`openspec update`) — never overwritten by a kit copy
+  kit-owned: fast-forwarded by a kit install or update unless the adopter records an intentional divergence
+  merge-guidance: merged by hand — never overwritten wholesale
+  never-touch: written by the adopter only — neither bundled nor installed (for example openspec/config.yaml)
+paths:
+  ".agents/skills/": kit-owned
+  ".opencode/commands/": cli-owned
+  ".opencode/skills/": cli-owned
+  ".opencode/agent/": kit-owned
+  "openspec/schemas/intent-driven/": kit-owned
+  "AGENTS.md": merge-guidance
+  "docs/intent-prompt-guidelines.md": kit-owned
+  ".github/workflows/validate.yml": kit-owned
+  ".github/ISSUE_TEMPLATE/": kit-owned
+  ".metadex-kit": kit-owned
+  "KIT-MANIFEST.yaml": kit-owned
