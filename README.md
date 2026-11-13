@@ -16,9 +16,9 @@ independent channels:
    spec index into the experiment's artifact workflows; experiments cite
    shared specs without copying them, and keep their own specs, changes, and
    implementation in their own repositories.
-2. **Workflow scaffolding replicates by template install.** The kit is
-   copied from a hep-metadex checkout at bootstrap time; it never flows
-   through the store.
+2. **Workflow scaffolding replicates by versioned kit release.** The kit is
+   installed from a semantically versioned, checksum-verified GitHub release
+   at bootstrap time; it never flows through the store.
 
 [dune-metadex](https://github.com/DUNE/dune-metadex) is the first adopter, proving the mechanism end to end. The
 store currently launches with no common capability specs by design — the
@@ -54,32 +54,39 @@ agent-assisted bootstrap prompt live in [docs/setup.md](docs/setup.md).
    openspec init --tools opencode
    ```
 
-4. **Install the workflow scaffolding.** Copy the following files and
-   directories from the local store checkout you registered in step 2
-   (for example `~/openspec/hep-metadex`) into the same paths in your
-   repository:
-
-   - `.agents/skills/`
-   - `.opencode/` (commands and agent definitions)
-   - `openspec/schemas/intent-driven/`
-   - `AGENTS.md`
-   - `docs/intent-prompt-guidelines.md` (referenced by `AGENTS.md`)
-
-5. **Add the host-conditional GitHub files: spec-validation CI and the issue
-   form.** GitHub-hosted repositories copy both from the local store checkout
-   you registered in step 2 (for example `~/openspec/hep-metadex`) into the
-   same paths here:
+4. **Install the workflow scaffolding from a kit release.** Fetch the
+   latest release's bundle and checksums, verify, and extract into your
+   repository — the bundle lays the kit out at its natural paths:
 
    ```bash
-   mkdir -p .github/workflows .github/ISSUE_TEMPLATE
-   cp ~/openspec/hep-metadex/.github/workflows/validate.yml .github/workflows/validate.yml
-   cp ~/openspec/hep-metadex/.github/ISSUE_TEMPLATE/change.yml ~/openspec/hep-metadex/.github/ISSUE_TEMPLATE/config.yml .github/ISSUE_TEMPLATE/
+   curl -fsSL -o SHA256SUMS https://github.com/DUNE/hep-metadex/releases/latest/download/SHA256SUMS
+   bundle="$(awk '{print $2}' SHA256SUMS)"
+   curl -fsSL -o "$bundle" "https://github.com/DUNE/hep-metadex/releases/latest/download/$bundle"
+   sha256sum -c SHA256SUMS
+   tar -xzf "$bundle"
    ```
+
+   The installed kit is `.agents/skills/`, `.opencode/` (commands, skills,
+   and agent definitions), `openspec/schemas/intent-driven/`, `AGENTS.md`,
+   `docs/intent-prompt-guidelines.md` (referenced by `AGENTS.md`), the
+   `.metadex-kit` version file — the provenance stamp naming the release
+   you installed — and `KIT-MANIFEST.yaml`, the kit's per-path bill of
+   materials. Adopting into a repository that already has an `AGENTS.md`?
+   Merge the kit's pointers into yours rather than overwriting it — the
+   manifest marks it merge-guidance.
+
+5. **Handle the host-conditional GitHub files: spec-validation CI and the
+   issue form.** The bundle carries `.github/workflows/validate.yml` and
+   `.github/ISSUE_TEMPLATE/` (`change.yml` and `config.yml`) for GitHub
+   hosts — step 4's extraction already placed them. GitHub-hosted:
+   confirm both paths exist. Hosted elsewhere: remove the extracted
+   `.github/` kit files and wire the equivalent gate into your own CI.
 
    The workflow runs `openspec validate --all` over all specs and changes,
    gating on `valid: true` (non-strict, per
    [ADR-0003](adr/0003-fenced-gherkin-single-source-validation-gate.md)),
-   with the OpenSpec CLI pinned to 1.16.0. The issue form makes new issues
+   with the OpenSpec CLI pinned to the version the release declares
+   (recorded in `.metadex-kit` — currently 1.16.0). The issue form makes new issues
    open through the intent-material template — the six required sections
    plus the optional labeled additions, defined in the
    [Writing Issues](docs/intent-prompt-guidelines.md#writing-issues) section
@@ -137,6 +144,7 @@ Stable locations; everything else links from here.
 | `glossary/` | Domain and technical terms with use-when/avoid guidance |
 | `pyproject.toml`, `.python-version`, `uv.lock` | The [maintainer toolchain](glossary/technical.md) — Python 3.14 managed by uv, used to maintain this repository itself; not part of the [workflow scaffolding](glossary/technical.md) adopters copy ([ADR-0006](adr/0006-python-uv-as-repo-local-maintainer-toolchain.md)) |
 | `zensical.toml`, `tools/`, `.github/workflows/docs.yml` | The [documentation site](glossary/technical.md) build — Zensical on GitHub Pages, published from `docs/` in place; repo-local like the [maintainer toolchain](glossary/technical.md), not part of what adopters copy ([ADR-0007](adr/0007-publish-zensical-docs-site-on-github-pages.md)) |
+| `.metadex-kit`, `KIT-MANIFEST.yaml`, `CHANGELOG.md`, `.github/workflows/release.yml` | The [kit release](glossary/technical.md) channel — version identity (source-side release trigger, shipped provenance stamp), the kit's per-path bill of materials, the changelog sourcing release bodies, and the repo-local release workflow ([ADR-0009](adr/0009-distribute-workflow-scaffolding-as-versioned-kit-releases.md)) |
 | `openspec/specs/` | The store's published capability specifications |
 | `openspec/changes/` | In-flight changes; `openspec/changes/archive/` holds completed ones |
 | `LICENSE` | Apache-2.0 — a deliberate divergence from the template's MIT, recorded in the [divergence manifest](docs/maintainer.md#intentional-divergences) |
