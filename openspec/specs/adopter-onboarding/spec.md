@@ -7,7 +7,7 @@ Defines the documented path a newcomer follows to adopt the **OpenSpec Store** a
 ## Requirements
 
 ### Requirement: Quick start from a fresh repository
-The README SHALL provide an adopter-facing quick start that takes a newcomer from a fresh **experiment repository** to a connected one — **workflow scaffolding** installed, **Store reference** declared, doctor green, spec-validation CI and the issue form in place per the adopter's host — without requiring any other document. The quick start MUST claim a bootstrap step only once the worked example, dune-metadex, has verified it: the **experiment repository** gains the spec-validation workflow and the issue form before the documentation claims them as steps.
+The README SHALL provide an adopter-facing quick start that takes a newcomer from a fresh **experiment repository** to a connected one — **workflow scaffolding** installed from a versioned kit release (checksum-verified and provenance-stamped), **Store reference** declared, doctor green, spec-validation CI and the issue form in place per the adopter's host — without requiring any other document. The quick start MUST claim a bootstrap step only once the worked example, dune-metadex, has verified it: the **experiment repository** gains the spec-validation workflow and the issue form before the documentation claims them as steps.
 
 #### Scenario: A stranger bootstraps an experiment repository
 
@@ -15,7 +15,17 @@ The README SHALL provide an adopter-facing quick start that takes a newcomer fro
 Given a newcomer with a fresh experiment repository and a machine with git and the OpenSpec CLI
 When the newcomer follows the README quick start
 Then the repository contains the installed workflow scaffolding and an openspec config declaring the hep-metadex store reference
+And the installed kit carries the version file of the release it came from
 And openspec doctor verifies the store reference
+```
+
+#### Scenario: The quick start installs a verified kit from a release
+
+```gherkin
+Given the README quick start naming a kit release
+When the newcomer follows its kit-install steps
+Then the kit arrives from that release's bundle
+And its checksums verify against the release's SHA256SUMS
 ```
 
 #### Scenario: A GitHub-hosted newcomer ends the quick start with a validation gate
@@ -68,14 +78,14 @@ Then a reader can still find the provenance baseline and the divergence manifest
 ```
 
 ### Requirement: Host-conditional spec-validation CI in the bootstrap documentation
-The bootstrap documentation — `docs/setup.md` and the agent-assisted bootstrap prompt — SHALL present spec-validation CI as a bootstrap step conditional on the adopter's host. GitHub-hosted **experiment repositories** copy the provided GitHub Actions workflow from the hep-metadex checkout; repositories on other hosts wire the equivalent `valid: true` gate into their own CI, with the gate named but not implemented for them.
+The bootstrap documentation — `docs/setup.md` and the agent-assisted bootstrap prompt — SHALL present spec-validation CI as a bootstrap step conditional on the adopter's host. GitHub-hosted **experiment repositories** copy the provided GitHub Actions workflow from the kit release bundle; repositories on other hosts wire the equivalent `valid: true` gate into their own CI, with the gate named but not implemented for them.
 
 #### Scenario: A GitHub-hosted repository copies the provided workflow
 
 ```gherkin
 Given a GitHub-hosted experiment repository being bootstrapped with the agent-assisted prompt
 When the agent performs the bootstrap CI step
-Then it copies the provided GitHub Actions workflow from the hep-metadex checkout into the repository
+Then it copies the provided GitHub Actions workflow from the kit release bundle into the repository
 And the workflow runs openspec validate --all over all specs and changes, gating on valid: true
 And the workflow pins the OpenSpec CLI to 1.16.0
 ```
@@ -102,14 +112,14 @@ And a maintainer syncing from the template preserves it as an intentional diverg
 ```
 
 ### Requirement: Host-conditional issue form in the bootstrap documentation
-The bootstrap documentation — `docs/setup.md` and the agent-assisted bootstrap prompt — SHALL present the issue form as a bootstrap step conditional on the adopter's host: `.github/ISSUE_TEMPLATE/` (the form and its config, one copy-list item) is copied by GitHub-hosted **experiment repositories** from the hep-metadex checkout; repositories on other hosts replicate the convention natively in their own issue tracker, named but not implemented for them — the ADR-0005 pattern.
+The bootstrap documentation — `docs/setup.md` and the agent-assisted bootstrap prompt — SHALL present the issue form as a bootstrap step conditional on the adopter's host: `.github/ISSUE_TEMPLATE/` (the form and its config, one copy-list item) is copied by GitHub-hosted **experiment repositories** from the kit release bundle; repositories on other hosts replicate the convention natively in their own issue tracker, named but not implemented for them — the ADR-0005 pattern.
 
 #### Scenario: A GitHub-hosted repository copies the issue form
 
 ```gherkin
 Given a GitHub-hosted experiment repository being bootstrapped with the agent-assisted prompt
 When the agent performs the bootstrap issue-form step
-Then it copies .github/ISSUE_TEMPLATE/ from the hep-metadex checkout into the same path in the repository
+Then it copies .github/ISSUE_TEMPLATE/ from the kit release bundle into the same path in the repository
 And new issues in that repository open through the intent-material form with the blank-issue path disabled
 ```
 
@@ -132,4 +142,24 @@ Given the divergence manifest in the maintainer guide
 When an adopter reads the entry for the issue form
 Then the entry presents .github/ISSUE_TEMPLATE/ as scaffolding that GitHub-hosted adopters copy at bootstrap
 And a maintainer syncing from the template preserves it as an intentional divergence
+```
+
+### Requirement: Divergence manifest frames the kit release artifacts
+The divergence-manifest entries for the kit version file and the release workflow SHALL present the version file as a **workflow scaffolding** component adopters install at bootstrap from the kit release bundle, and the release workflow as repo-local automation that never ships in the kit.
+
+#### Scenario: An adopter reads the version file's manifest entry
+
+```gherkin
+Given the divergence manifest in the maintainer guide
+When an adopter reads the entry for the kit version file
+Then the entry presents it as a kit component installed from the release bundle
+And a maintainer syncing from the template preserves it as an intentional divergence
+```
+
+#### Scenario: A reader sees the release workflow marked repo-local
+
+```gherkin
+Given the divergence manifest in the maintainer guide
+When a reader reads the entry for the release workflow
+Then the entry presents it as repo-local automation that never ships in the kit
 ```
