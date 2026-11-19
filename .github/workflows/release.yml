@@ -107,18 +107,18 @@ jobs:
           tag="v${version}"
           bundle="metadex-kit-${version}.tar.gz"
 
-          # The bundle is exactly the copy-list plus .metadex-kit and
-          # KIT-MANIFEST.yaml, at their natural repository paths.
-          tar -czf "${RUNNER_TEMP:-/tmp}/${bundle}" \
-            .agents/skills/ \
-            .opencode/commands/ .opencode/skills/ .opencode/agent/ \
-            openspec/schemas/intent-driven/ \
-            AGENTS.md \
-            docs/intent-prompt-guidelines.md \
-            .github/workflows/validate.yml \
-            .github/ISSUE_TEMPLATE/ \
-            .metadex-kit \
-            KIT-MANIFEST.yaml
+          # The bundle is exactly the copy-list at its natural repository
+          # paths. KIT-MANIFEST.yaml's paths: block is the single
+          # copy-list source — this workflow, the CI reminder, and the
+          # archive gate all read it — so the tar arguments are derived
+          # from it: quoted keys, extracted in manifest order (today's
+          # inline order), keeping the bundle byte-identical.
+          mapfile -t kit_paths < <(awk '
+            /^paths:/ { in_paths = 1; next }
+            in_paths && /^[^ #]/ { exit }
+            in_paths && /^  "/ { sub(/^  "/, ""); sub(/".*/, ""); print }
+          ' KIT-MANIFEST.yaml)
+          tar -czf "${RUNNER_TEMP:-/tmp}/${bundle}" "${kit_paths[@]}"
           (
             cd "${RUNNER_TEMP:-/tmp}"
             sha256sum "${bundle}" > SHA256SUMS

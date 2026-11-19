@@ -10,7 +10,7 @@
 
 ## 1. Single-source copy-list (hep-metadex)
 
-- [ ] 1.1 Derive release.yml's bundle assembly from `KIT-MANIFEST.yaml`'s `paths:` block (design D5): awk extraction of the quoted keys in manifest order replaces the inlined tar list, with a comment naming the manifest as the single copy-list source
+- [x] 1.1 Derive release.yml's bundle assembly from `KIT-MANIFEST.yaml`'s `paths:` block (design D5): awk extraction of the quoted keys in manifest order replaces the inlined tar list, with a comment naming the manifest as the single copy-list source
 - [ ] 1.2 Verify bundle equivalence: assemble the bundle over the current tree both ways — the inlined list from git history and the derived list — and confirm identical tar member lists and order, so the bundle stays byte-identical (design D5)
 - [ ] 1.3 Confirm the rest of the release workflow is untouched: bump detection, changelog-section gate, CLI-pin cross-check, tag-exists check, publication, and the tags-and-releases-only footprint (ADR-0009's contract unchanged)
 
