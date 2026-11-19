@@ -50,6 +50,8 @@ manifest when syncing with the template:
 | `.metadex-kit`, `KIT-MANIFEST.yaml` | New kit identity files (the template ships none): the version file — source-side release trigger, provenance stamp when installed — and the kit's per-path bill of materials; distributed with the workflow scaffolding — adopters install both from the [kit release](../glossary/technical.md) bundle ([ADR-0009](../adr/0009-distribute-workflow-scaffolding-as-versioned-kit-releases.md)) | Kit release channel identity; the future update path ([#39](https://github.com/DUNE/hep-metadex/issues/39)) reconciles by the manifest's ownership classes |
 | `.github/workflows/release.yml` | Kit release workflow (the template ships none): repo-local maintainer automation, never part of the workflow scaffolding — the `docs.yml` pattern ([ADR-0009](../adr/0009-distribute-workflow-scaffolding-as-versioned-kit-releases.md)) | Tags `vX.Y.Z` on a kit version bump and publishes the bundle plus `SHA256SUMS` with the changelog section as the release body; creates tags and releases only, never commits |
 | `CHANGELOG.md` | Kit changelog (the template ships none): repository documentation, never shipped in the bundle — the docs link to it ([ADR-0009](../adr/0009-distribute-workflow-scaffolding-as-versioned-kit-releases.md)) | The single source of GitHub release bodies; kit-altering changes land their entry with the version bump in the same change |
+| `.github/workflows/kit-reminder.yml` | Kit release reminder workflow (the template ships none): repo-local maintainer automation, never part of the workflow scaffolding — the `release.yml` pattern ([ADR-0010](../adr/0010-enforce-kit-release-discipline-with-reminder-and-archive-gate.md)) | Advisory review-time check ([#35](https://github.com/DUNE/hep-metadex/issues/35)): flags kit-path changes without a kit version bump on pull requests; always green, never blocks merge |
+| `tools/kit_release_gate.py` | Repo-local [maintainer toolchain](../glossary/technical.md) script the template never ships ([ADR-0006](../adr/0006-python-uv-as-repo-local-maintainer-toolchain.md)): the archive-phase kit release gate with its test suite ([ADR-0010](../adr/0010-enforce-kit-release-discipline-with-reminder-and-archive-gate.md)) | Blocks archiving a kit-touching change until a published kit release contains its changes, printing the per-cause pasteable fix ([#35](https://github.com/DUNE/hep-metadex/issues/35)) |
 | Not installed | `package.json`, `package-lock.json`, `skills-lock.json` | Outside the install guide's file list; do not add during a sync without a deliberate decision |
 | `pyproject.toml`, `uv.lock`, `.python-version` | Repo-local [maintainer toolchain](../glossary/technical.md) files the template never ships ([ADR-0006](../adr/0006-python-uv-as-repo-local-maintainer-toolchain.md)) | Outside the install guide's file list; do not add during a sync without a deliberate decision |
 | `zensical.toml`, `tools/`, `.github/workflows/docs.yml` | Repo-local [documentation site](../glossary/technical.md) tooling the template never ships ([ADR-0007](../adr/0007-publish-zensical-docs-site-on-github-pages.md)) | Outside the install guide's file list; do not add during a sync without a deliberate decision |
@@ -112,7 +114,15 @@ This is the release discipline:
   in `.metadex-kit` and lands the matching `CHANGELOG.md` entry in the same
   change — the same discipline as the CLI pin (see
   [usage.md](usage.md#cli-version-pinning-and-upgrades)). When the change
-  merges to `main`, the release workflow cuts the release automatically.
+  merges to `main`, the release workflow cuts the release automatically. The
+  reminder and the archive gate below enforce this rule.
+- **Advisory reminder at review time.** `.github/workflows/kit-reminder.yml`
+  (repo-local, never kit) runs on pull requests: when a diff alters kit
+  copy-list paths — the `KIT-MANIFEST.yaml` `paths:` block — without a
+  `version:` bump in `.metadex-kit`, it posts a warning annotation and a
+  pull request comment advising the bump and the matching changelog entry.
+  It is advisory: the check is always green and never blocks a merge
+  ([ADR-0010](../adr/0010-enforce-kit-release-discipline-with-reminder-and-archive-gate.md)).
 - **The version speaks about the kit only.** MAJOR — breaking changes to
   installed state (schema format changes, command renames or removals,
   coordinated CLI upgrades); MINOR — new kit components; PATCH — fixes and
@@ -130,12 +140,26 @@ This is the release discipline:
   release unless the changelog section exists, `.metadex-kit`'s `cli:` pin
   matches `validate.yml`, and the version's tag does not already exist. It
   publishes the bundle (exactly the copy-list plus `.metadex-kit` and
-  `KIT-MANIFEST.yaml`), `SHA256SUMS`, and the changelog-sourced release body
+  `KIT-MANIFEST.yaml`, its member list derived from the manifest's
+  `paths:` block), `SHA256SUMS`, and the changelog-sourced release body
   with the required CLI version declared. It creates tags and releases only —
   never commits on `main` — and uses no release-please-style PR generation.
+- **One copy-list source.** `KIT-MANIFEST.yaml`'s `paths:` block is the
+  single kit copy-list definition: the release workflow derives its bundle
+  list from it, and the reminder and the archive gate read the same block,
+  so a copy-list change reaches every consumer
+  ([ADR-0010](../adr/0010-enforce-kit-release-discipline-with-reminder-and-archive-gate.md)).
 - **When a run misfires**, re-run via `workflow_dispatch` (the workflow's
   manual trigger) after fixing the cause; the gates re-check everything
   before publishing.
+- **Archive gate.** The archive phase runs the kit release gate before
+  archiving (`uv run tools/kit_release_gate.py <issue-number>`, wired into
+  `openspec/config.yaml`'s archive guidance): a change whose kit-touching
+  commits are not contained in a published kit release refuses to archive,
+  printing the pasteable fix for the diagnosed cause — bump the kit version
+  file, merge, and the release cuts (forgotten bump), or wait for a running
+  release and re-run via `workflow_dispatch` (misfire; never a second bump)
+  ([ADR-0010](../adr/0010-enforce-kit-release-discipline-with-reminder-and-archive-gate.md)).
 
 ## Repository Configuration
 
