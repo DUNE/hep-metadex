@@ -11,14 +11,14 @@
 ## 1. Single-source copy-list (hep-metadex)
 
 - [x] 1.1 Derive release.yml's bundle assembly from `KIT-MANIFEST.yaml`'s `paths:` block (design D5): awk extraction of the quoted keys in manifest order replaces the inlined tar list, with a comment naming the manifest as the single copy-list source
-- [ ] 1.2 Verify bundle equivalence: assemble the bundle over the current tree both ways — the inlined list from git history and the derived list — and confirm identical tar member lists and order, so the bundle stays byte-identical (design D5)
-- [ ] 1.3 Confirm the rest of the release workflow is untouched: bump detection, changelog-section gate, CLI-pin cross-check, tag-exists check, publication, and the tags-and-releases-only footprint (ADR-0009's contract unchanged)
+- [x] 1.2 Verify bundle equivalence: assemble the bundle over the current tree both ways — the inlined list from git history and the derived list — and confirm identical tar member lists and order, so the bundle stays byte-identical (design D5)
+- [x] 1.3 Confirm the rest of the release workflow is untouched: bump detection, changelog-section gate, CLI-pin cross-check, tag-exists check, publication, and the tags-and-releases-only footprint (ADR-0009's contract unchanged)
 
 ## 2. CI reminder (hep-metadex)
 
-- [ ] 2.1 Create `.github/workflows/kit-reminder.yml` (repo-local, never kit): `pull_request` (opened, synchronize) trigger; only `actions/checkout` plus the runner's preinstalled `git` and `gh`, with the DUNE-org action-policy comment as release.yml carries (design D1)
-- [ ] 2.2 Implement detection (design D2): diff head against the pull request's base; a kit change is any changed path under a manifest `paths:` key (awk extraction, directory entries matching their subtrees); a corresponding bump is a changed `version:` value in `.metadex-kit` between base and head — a `cli:` change alone is not a bump
-- [ ] 2.3 Implement the advisory surface (design D1): on kit-change-without-bump, post a `::warning::` annotation and a pull request comment via `gh pr comment --edit-last` (creating on first post); the job exits 0 in every outcome — no failing status is ever rendered
+- [x] 2.1 Create `.github/workflows/kit-reminder.yml` (repo-local, never kit): `pull_request` (opened, synchronize) trigger; only `actions/checkout` plus the runner's preinstalled `git` and `gh`, with the DUNE-org action-policy comment as release.yml carries (design D1)
+- [x] 2.2 Implement detection (design D2): diff head against the pull request's base; a kit change is any changed path under a manifest `paths:` key (awk extraction, directory entries matching their subtrees); a corresponding bump is a changed `version:` value in `.metadex-kit` between base and head — a `cli:` change alone is not a bump
+- [x] 2.3 Implement the advisory surface (design D1): on kit-change-without-bump, post a `::warning::` annotation and a pull request comment via `gh pr comment --edit-last` (creating on first post); the job exits 0 in every outcome — no failing status is ever rendered
 - [ ] 2.4 Verify detection against scratch states: kit-path change without bump → the advisory fires and the job stays green; kit-path change with a version bump → no advisory; non-kit change → no advisory; version-only diff → no advisory (discard scratch artifacts afterward)
 
 ## 3. Archive gate (hep-metadex)
