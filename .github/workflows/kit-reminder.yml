@@ -1,0 +1,188 @@
+name: Kit release reminder
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  # Reading the tree for the base..head diff; writing the one advisory
+  # comment (gh pr comment). The reminder needs nothing else.
+  contents: read
+  pull-requests: write
+
+# Repo-local maintainer automation — never part of the workflow scaffolding
+# adopters copy (the divergence manifest records this row). Per the DUNE
+# organization's Actions policy, only actions owned by DUNE, created by
+# GitHub, or on the org allowlist may be used: this workflow uses
+# actions/checkout plus the runner's preinstalled git and gh, nothing else
+# (the same constraint release.yml and docs.yml record). Re-evaluate after
+# any hosting move.
+
+# A new push to the same pull request supersedes the stale check: only the
+# latest head is worth advising on, and runs cannot interleave their
+# edit-last comment updates.
+concurrency:
+  group: kit-reminder-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  remind:
+    name: advise on kit-path changes without a version bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+        with:
+          # Full history: detection diffs the pull request head against
+          # its base sha, so both must be present in the fetched tree.
+          fetch-depth: 0
+
+      - name: Detect kit-path changes without a version bump
+        id: detect
+        env:
+          # The event shas travel by env, keeping the run block plain
+          # bash; diff-derived values below take the same route.
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+
+          base_sha="${BASE_SHA}"
+          head_sha="${HEAD_SHA}"
+
+          # KIT-MANIFEST.yaml's paths: block is the single copy-list
+          # source — the release workflow, this reminder, and the
+          # archive gate all read it — so the kit-path set is derived
+          # from it: the quoted keys, in manifest order, the same awk
+          # extraction the release workflow's bundle assembly uses.
+          mapfile -t manifest_paths < <(awk '
+            /^paths:/ { in_paths = 1; next }
+            in_paths && /^[^ #]/ { exit }
+            in_paths && /^  "/ { sub(/^  "/, ""); sub(/".*/, ""); print }
+          ' KIT-MANIFEST.yaml)
+
+          if [ "${#manifest_paths[@]}" -eq 0 ]; then
+            # Never a failing status: a manifest with no readable
+            # paths: keys degrades to a visible annotation and a
+            # green run.
+            echo "::warning title=Kit release reminder::KIT-MANIFEST.yaml yielded no paths: keys; kit-change detection was skipped."
+            echo "advisory=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # A changed path is a kit change when it is a manifest entry
+          # itself (file entries) or lies under one (directory entries
+          # match their subtrees, so a new file under .agents/skills/
+          # counts). Trailing slashes come off the directory entries
+          # so one rule covers both shapes.
+          is_kit_path() {
+            local changed="$1" entry
+            for entry in "${manifest_paths[@]}"; do
+              entry="${entry%/}"
+              if [ "$changed" = "$entry" ] || [[ "$changed" == "$entry"/* ]]; then
+                return 0
+              fi
+            done
+            return 1
+          }
+
+          changed_kit_paths=()
+          while IFS= read -r changed; do
+            [ -n "$changed" ] || continue
+            if is_kit_path "$changed"; then
+              changed_kit_paths+=("$changed")
+            fi
+          done < <(git diff --name-only --no-renames "$base_sha" "$head_sha")
+
+          # A bump is a changed version: value in .metadex-kit between
+          # base and head, extracted the same way the release
+          # workflow's bump detection reads the field. A cli: pin
+          # change alone leaves version: equal and is not a bump; an
+          # absent version file reads as empty, so introducing it
+          # counts as the bump (the release workflow's precedent).
+          kit_version_at() {
+            git show "${1}:.metadex-kit" 2>/dev/null \
+              | awk -F': *' '/^version:/ {print $2; exit}' || true
+          }
+          base_version="$(kit_version_at "$base_sha")"
+          head_version="$(kit_version_at "$head_sha")"
+          bumped=false
+          if [ "$base_version" != "$head_version" ]; then
+            bumped=true
+          fi
+
+          # The advisory fires on kit-change-without-bump; a version
+          # bump — even alone — draws none.
+          advisory=false
+          if [ "${#changed_kit_paths[@]}" -gt 0 ] && [ "$bumped" = "false" ]; then
+            advisory=true
+          fi
+
+          if [ "${#changed_kit_paths[@]}" -gt 0 ]; then
+            echo "Kit copy-list paths changed between base and head:"
+            printf '  %s\n' "${changed_kit_paths[@]}"
+          else
+            echo "No kit copy-list paths changed between base and head."
+          fi
+          if [ "$bumped" = "true" ]; then
+            echo "Kit version bumped: ${base_version:-<absent>} -> ${head_version:-<absent>}."
+          else
+            echo "Kit version unchanged at ${head_version:-<absent>}."
+          fi
+
+          {
+            echo "advisory=${advisory}"
+            echo "version=${head_version}"
+          } >> "$GITHUB_OUTPUT"
+          if [ "${#changed_kit_paths[@]}" -gt 0 ]; then
+            eof="_KIT_PATHS_EOF_${RANDOM}"
+            {
+              echo "kit_paths<<${eof}"
+              printf '%s\n' "${changed_kit_paths[@]}"
+              echo "${eof}"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Post the reminder (advisory — never a failing status)
+        if: steps.detect.outputs.advisory == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          # Diff-derived values travel by env, never inline ${{ }}: a
+          # path or version out of the diff is untrusted input.
+          KIT_PATHS: ${{ steps.detect.outputs.kit_paths }}
+          KIT_VERSION: ${{ steps.detect.outputs.version }}
+        run: |
+          set -euo pipefail
+
+          body_file="${RUNNER_TEMP:-/tmp}/kit-reminder-body.md"
+
+          # The bold heading is the marker that identifies this
+          # workflow's comment in the pull request timeline.
+          {
+            echo '**Kit release reminder**'
+            echo
+            echo "This pull request changes kit copy-list paths without bumping the \`version:\` in \`.metadex-kit\` (still \`${KIT_VERSION:-<unset>}\`):"
+            echo
+            while IFS= read -r path; do
+              [ -n "$path" ] || continue
+              echo "- \`${path}\`"
+            done <<< "${KIT_PATHS:-}"
+            echo
+            echo 'Per the kit release discipline, bump the `version:` in `.metadex-kit` (and add the matching `CHANGELOG.md` section) so the kit release workflow cuts a kit release when this pull request merges.'
+            echo
+            echo 'This reminder is advisory: it never blocks the merge.'
+          } > "$body_file"
+
+          # Two surfaces: the annotation shows in the pull request's
+          # checks; the comment is durable in the timeline.
+          echo "::warning title=Kit release reminder::Kit copy-list paths changed without a version bump — bump the version in .metadex-kit so a kit release is cut on merge."
+
+          # --edit-last edits this workflow's previous comment on later
+          # pushes so advisories never stack one per push;
+          # --create-if-none posts the first one. gh is preinstalled on
+          # the runner; if even this call fails the check stays green —
+          # the annotation above already carries the advisory.
+          if ! gh pr comment "$PR_NUMBER" --body-file "$body_file" --edit-last --create-if-none; then
+            echo "::warning title=Kit release reminder::could not post the reminder comment on this pull request; the annotation above carries the advisory."
+          fi

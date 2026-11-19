@@ -30,3 +30,4 @@ operations:
   archive:
     guidance:
       - Must run OpenSpec Sync before archiving
+      - Must run the kit release gate (uv run tools/kit_release_gate.py <issue-number>) before archiving and refuse on failure
