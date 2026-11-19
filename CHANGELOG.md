@@ -14,6 +14,11 @@ There is no Unreleased section: a kit-altering change bumps the version and
 lands its changelog entry in the same change, and the release cuts when
 that change merges to `main`.
 
+## [1.0.1] - 2026-11-19
+
+### Fixed
+- Unified the `actions/checkout` pin at `@v7` across the repository's workflows: the kit-shipped spec-validation workflow (`validate.yml`) moves `@v4` → `@v7`, matching `docs.yml` and `kit-reminder.yml` — the same coordinated move the repo-local `release.yml` carries source-side (#44).
+
 ## [1.0.0] - 2026-11-12
 
 ### Added
@@ -24,3 +29,4 @@ that change merges to `main`.
 - Kit release consumption documentation with manual checksum verification (#34).
 
 [1.0.0]: https://github.com/DUNE/hep-metadex/releases/tag/v1.0.0
+[1.0.1]: https://github.com/DUNE/hep-metadex/releases/tag/v1.0.1
