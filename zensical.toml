@@ -3,8 +3,8 @@
 # The committed config points docs_dir at docs/ in place (ADR-0007).
 # Strict publishing builds run through tools/docs_site.py, which stages a
 # rewritten copy and derives its own config (docs_dir -> .site-src) so
-# out-of-tree links pass the strict gate. A hosting move edits repo_url and
-# site_url here, never the docs sources.
+# out-of-tree links pass the strict gate. A hosting move edits repo_url,
+# site_url, and the theme's avatar URL here, never the docs sources.
 
 [project]
 site_name = "hep-metadex"
@@ -16,10 +16,55 @@ strict = true
 
 nav = [
   { "Home" = "index.md" },
-  { "Setup" = "setup.md" },
-  { "Usage" = "usage.md" },
-  { "Governance" = "governance.md" },
-  { "HSF Affiliation" = "hsf-affiliation.md" },
-  { "Maintainer Guide" = "maintainer.md" },
-  { "Intent Prompt Guidelines" = "intent-prompt-guidelines.md" },
+  { "Getting Started" = [
+      { "Setup" = "setup.md" },
+      { "Usage" = "usage.md" },
+  ] },
+  { "Governance" = [
+      { "Governance" = "governance.md" },
+      { "HSF Affiliation" = "hsf-affiliation.md" },
+  ] },
+  { "Maintainers" = [
+      { "Maintainer Guide" = "maintainer.md" },
+      { "Intent Prompt Guidelines" = "intent-prompt-guidelines.md" },
+  ] },
 ]
+
+# Reader-facing theme settings: a system-following light/dark palette
+# toggle, navigation features, and DUNE avatar branding for the favicon
+# and logo (ADR-0013).
+[project.theme]
+favicon = "https://avatars.githubusercontent.com/u/7131646?s=200&v=4"
+logo = "https://avatars.githubusercontent.com/u/7131646?s=200&v=4"
+features = [
+  "navigation.footer",
+  "navigation.instant",
+  "navigation.instant.prefetch",
+  "navigation.instant.preview",
+  "navigation.instant.progress",
+  "navigation.tracking",
+  "navigation.sections",
+  "navigation.path",
+  "navigation.expand",
+  "navigation.prune",
+  "toc.follow",
+  "navigation.top",
+]
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle = { icon = "material/brightness-auto", name = "Switch to light mode" }
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "indigo"
+accent = "light-blue"
+toggle = { icon = "material/brightness-7", name = "Switch to dark mode" }
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "indigo"
+accent = "light-blue"
+toggle = { icon = "material/brightness-4", name = "Switch to light mode" }
