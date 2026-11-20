@@ -115,7 +115,7 @@ sequenceDiagram
     REL->>GH: cut v1.0.1 (bundle carries validate.yml @v7)
     ARCH->>ARCH: uv run tools/kit_release_gate.py 44
     ARCH->>GH: kit-touching commits ancestors of v1.0.1? — yes
-    ARCH->>ARCH: archive proceeds; commit carries Closes #44
+    ARCH->>ARCH: archive proceeds, commit carries Closes #44
 ```
 
 - The two verifications that cannot be simulated locally — `@v7` running `validate.yml` and `release.yml`, and the reminder's silence — happen on this change's own pull requests before merge.

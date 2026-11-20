@@ -111,10 +111,10 @@ sequenceDiagram
     M->>G: merge change (kit files, .metadex-kit bump, CHANGELOG entry)
     G->>W: push trigger
     W->>W: diff .metadex-kit vs latest v* tag (introduction counts as a bump)
-    W->>W: extract CHANGELOG [X.Y.Z] section; fail if missing
-    W->>W: cross-check cli: pin against validate.yml; fail on mismatch
+    W->>W: extract CHANGELOG [X.Y.Z] section, fail if missing
+    W->>W: cross-check cli: pin against validate.yml, fail on mismatch
     W->>W: assemble bundle + SHA256SUMS
-    W->>R: tag vX.Y.Z; create release (body = changelog section, CLI declared)
+    W->>R: tag vX.Y.Z, create release (body = changelog section, CLI declared)
 ```
 
 - The workflow never writes back: its last act is the release; `main`'s history gains nothing.
