@@ -15,9 +15,9 @@
 
 ## 1. Dependency bump — everything downstream verifies on the new pin (code zone)
 
-- [ ] 1.1 Raise the Zensical dev dependency to `zensical>=0.1.2` and re-lock: confirm `uv.lock` records zensical 0.1.2 with zensical-ui 0.0.43 riding along, and `uv sync --locked` is green on the pinned Python 3.14 (design D8; spec: `docs-site`, "In-place site build")
-- [ ] 1.2 Re-verify the flag vocabulary on the new pin before any config work: confirm the twelve feature flags and the `palette`/`features`/`favicon`/`logo` keys still exist in the installed zensical-ui 0.0.43 templates (design D4's mapping); if any drifted, stop and reconcile design D4 before proceeding (design D9, Risks)
-- [ ] 1.3 Commit as `build(docs): raise zensical to 0.1.2 (#47)` — `pyproject.toml` plus `uv.lock`; code zone, nothing under `openspec/` uncommitted alongside
+- [x] 1.1 Raise the Zensical dev dependency to `zensical>=0.1.2` and re-lock: confirm `uv.lock` records zensical 0.1.2 with zensical-ui 0.0.43 riding along, and `uv sync --locked` is green on the pinned Python 3.14 (design D8; spec: `docs-site`, "In-place site build") — *apply note: zensical 0.1.2 pins zensical-ui==0.0.42 exactly (0.0.43 pairs with no released zensical); 0.1.2/0.0.42 accepted with user approval — the binding rules name only the ≥ 0.1.2 floor and the lock*
+- [x] 1.2 Re-verify the flag vocabulary on the new pin before any config work: confirm the twelve feature flags and the `palette`/`features`/`favicon`/`logo` keys still exist in the installed zensical-ui 0.0.43 templates (design D4's mapping); if any drifted, stop and reconcile design D4 before proceeding (design D9, Risks) — *apply note: verified against the installed zensical-ui 0.0.42 — all twelve flags, all four theme keys, and the brightness-auto/-7/-4 toggle icons are present*
+- [x] 1.3 Commit as `build(docs): raise zensical to 0.1.2 (#47)` — `pyproject.toml` plus `uv.lock`; code zone, nothing under `openspec/` uncommitted alongside
 
 ## 2. Serializer round-trip guard — red first (code zone)
 
