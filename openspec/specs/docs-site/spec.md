@@ -7,7 +7,7 @@ Defines the repository's **documentation site** — Zensical building `docs/` in
 ## Requirements
 
 ### Requirement: In-place site build
-The repository SHALL build the **documentation site** from `docs/` in place: `zensical.toml` at the repository root configures Zensical with `docs_dir` pointing at `docs/`, explicit navigation, and a minimal theme, and Zensical SHALL be pinned as a dev dependency of the **maintainer toolchain** with the pin recorded in `uv.lock`.
+The repository SHALL build the **documentation site** from `docs/` in place: `zensical.toml` at the repository root configures Zensical with `docs_dir` pointing at `docs/`, explicit sectioned navigation, and a `[project.theme]` section carrying the site's theme settings, and Zensical SHALL be a dev dependency of the **maintainer toolchain** with a version floor of 0.1.2 in `pyproject.toml` and the resolved pin recorded in `uv.lock`.
 
 #### Scenario: A maintainer builds the site from the repository root
 
@@ -23,7 +23,88 @@ And no docs page is moved, renamed, or deleted
 ```gherkin
 Given the maintainer toolchain's uv project
 When a maintainer syncs dependencies with uv
-Then Zensical is installed as a dev dependency at the version pinned in uv.lock
+Then Zensical is installed as a dev dependency at the version recorded in uv.lock
+And the installed version is at least 0.1.2
+```
+
+### Requirement: Three-way color palette toggle
+The site SHALL offer a three-way color palette toggle — the system preference (`prefers-color-scheme`), light, and dark — and SHALL render every page in the reader's chosen palette, persisting that choice across pages.
+
+#### Scenario: A reader follows the system color scheme
+
+```gherkin
+Given a reader whose system requests a dark color scheme
+When the reader opens any page of the site
+Then the page renders in the dark palette
+```
+
+#### Scenario: A reader overrides the system preference
+
+```gherkin
+Given a reader whose system requests a dark color scheme
+When the reader switches the palette toggle to light
+Then the page renders in the light palette
+```
+
+#### Scenario: The reader's choice persists across pages
+
+```gherkin
+Given a reader who has chosen the dark palette
+When the reader opens another page of the site
+Then that page renders in the dark palette
+```
+
+### Requirement: Site branding from the DUNE organization avatar
+The site SHALL use the DUNE organization avatar `https://avatars.githubusercontent.com/u/7131646?s=200&v=4` as both its favicon and its header logo, referenced by that URL in `zensical.toml` rather than vendored into the repository.
+
+#### Scenario: A reader sees the project's branding
+
+```gherkin
+Given the published site
+When a reader opens any page
+Then the browser tab shows the DUNE organization avatar as the favicon
+And the header shows the same avatar as the logo
+```
+
+#### Scenario: The branding moves with the configuration
+
+```gherkin
+Given the site branded through the avatar URL in zensical.toml
+When the avatar URL setting is changed
+Then the favicon and logo follow the new URL
+And no branding image file is added to the repository
+```
+
+### Requirement: Reader-experience theme features
+The site's theme SHALL enable the reader-experience features: navigation footer (previous/next), instant navigation, instant prefetching, reading-progress indicator, automatic previews, anchor tracking, navigation sections, navigation-path breadcrumbs, navigation expansion, navigation pruning, TOC anchor following, and the back-to-top button.
+
+#### Scenario: Every feature survives the strict build
+
+```gherkin
+Given zensical.toml with [project.theme] enabling every listed feature
+When the site is built through the staging wrapper with zensical build --strict
+Then the build succeeds with zero invalid links and zero invalid anchors
+And every feature's component renders in the built output
+```
+
+#### Scenario: A reader navigates without full page loads
+
+```gherkin
+Given a reader viewing any page of the built site
+When the reader follows an in-site link
+Then the destination page renders without a full page reload
+And the link was prefetched before the reader followed it
+```
+
+#### Scenario: A reader keeps their bearings while reading
+
+```gherkin
+Given a reader viewing a page within a navigation section
+When the reader scrolls through the page
+Then the reading-progress indicator tracks their position
+And the table of contents follows the current anchor
+And navigation-path breadcrumbs show the page's position
+And previous and next links offer the adjacent pages
 ```
 
 ### Requirement: Strict link validation gate
@@ -83,12 +164,12 @@ And the docs source still carries its relative link
 ```gherkin
 Given the published site and the docs sources with their relative links
 When the repository transfers to a different GitHub organization
-Then updating the repo-URL setting and site_url in zensical.toml repoints every out-of-tree link
+Then updating repo_url, site_url, and the avatar URL in zensical.toml repoints every out-of-tree link and the site's branding
 And no docs source needs editing
 ```
 
 ### Requirement: Site landing page and full navigation
-The site SHALL provide `docs/index.md` as the audience-facing landing page for HSF evaluators and adopter maintainers, and explicit navigation in `zensical.toml` SHALL cover the landing page and every existing docs page. Navigation titles SHALL live in configuration, so no existing docs page requires front-matter.
+The site SHALL provide `docs/index.md` as the audience-facing landing page for HSF evaluators and adopter maintainers, and explicit navigation in `zensical.toml` SHALL organize the landing page and every existing docs page into audience-oriented sections. All section and page titles SHALL live in configuration, so no existing docs page requires front-matter.
 
 #### Scenario: An evaluator lands on the site
 
@@ -99,12 +180,30 @@ Then the landing page presents what hep-metadex is and where to start
 And the navigation reaches the landing page and every existing docs page
 ```
 
+#### Scenario: Navigation groups the pages by audience
+
+```gherkin
+Given the six pre-existing docs pages and docs/index.md
+When the site build completes
+Then the navigation presents audience-oriented sections grouping the pages
+And the landing page stays reachable as a top-level navigation entry
+```
+
 #### Scenario: No docs page is dropped from navigation
 
 ```gherkin
-Given the six pre-existing docs pages and the new docs/index.md
+Given the six pre-existing docs pages and docs/index.md
 When the site build completes
-Then each of the seven pages appears in the explicit navigation
+Then each of the seven pages appears in the sectioned navigation
+```
+
+#### Scenario: Navigation titles stay in configuration
+
+```gherkin
+Given the sectioned navigation defined in zensical.toml
+When the docs sources are examined after the build
+Then every section and page title in the navigation comes from configuration
+And no docs page gains front-matter for navigation
 ```
 
 ### Requirement: Documentation paths and scaffolding untouched
