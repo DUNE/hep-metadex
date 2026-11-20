@@ -76,7 +76,7 @@ Then it fails without publishing a release
 ```
 
 ### Requirement: Bump-triggered release publication
-When a kit version bump merges to `main`, a repo-local workflow SHALL tag `vX.Y.Z`, assemble the kit bundle — exactly the documented copy-list plus the version file and the KIT-MANIFEST — publish SHA256SUMS, and publish the GitHub release with the required OpenSpec CLI version declared. The workflow MUST NOT create commits on `main` (it creates tags and releases only) and MUST NOT use release-please-style PR generation.
+When a kit version bump merges to `main`, a repo-local workflow SHALL tag `vX.Y.Z`, assemble the kit bundle — exactly the documented copy-list plus the version file and the KIT-MANIFEST — publish SHA256SUMS, and publish the GitHub release with the required OpenSpec CLI version declared. The workflow SHALL additionally publish the kit's bootstrap command file (`.opencode/commands/hep-metadex-bootstrap.md`) as a standalone release asset derived from the same source file the bundle carries, covered by the release's SHA256SUMS. The workflow MUST NOT create commits on `main` (it creates tags and releases only) and MUST NOT use release-please-style PR generation.
 
 #### Scenario: A bump merge cuts a release
 
@@ -107,8 +107,18 @@ Then the workflow treats the version file's introduction as a version bump
 And cuts the v1.0.0 release
 ```
 
+#### Scenario: The release publishes the bootstrap command as a checksummed asset
+
+```gherkin
+Given a kit release cut after the bootstrap command joined the copy-list
+When an adopter lists the release's assets
+Then the command file is published alongside the bundle
+And SHA256SUMS covers the command file
+And its content matches the file the bundle carries
+```
+
 ### Requirement: KIT-MANIFEST ownership classes
-The kit bundle SHALL carry a machine-readable KIT-MANIFEST mapping every copy-list path to exactly one ownership class: CLI-owned (`.opencode/commands/`, `.opencode/skills/` — refreshed via the OpenSpec CLI, never kit-copied over), kit-owned (`.opencode/agent/`, `.agents/skills/`, the schema copy, `docs/intent-prompt-guidelines.md`, host-conditional `.github/` files), merge-guidance (`AGENTS.md`), and never-touch (`openspec/config.yaml`).
+The kit bundle SHALL carry a machine-readable KIT-MANIFEST mapping every copy-list path to exactly one ownership class: CLI-owned (`.opencode/skills/` and the CLI-delivered command files under `.opencode/commands/` — refreshed via the OpenSpec CLI, never kit-copied over), kit-owned (`.opencode/agent/`, `.agents/skills/`, the schema copy, `docs/intent-prompt-guidelines.md`, host-conditional `.github/` files, and the kit's own `hep-metadex-*` command files under `.opencode/commands/`), merge-guidance (`AGENTS.md`), and never-touch (`openspec/config.yaml`). Entries MAY nest — a per-file entry inside a directory entry — and when several entries match a path, the most specific matching path SHALL win.
 
 #### Scenario: Every copy-list path carries an ownership class
 
@@ -124,6 +134,16 @@ Then every copy-list path maps to exactly one of the four ownership classes
 Given the manifest's CLI-owned entries for .opencode/commands/ and .opencode/skills/
 When an adopter reads those entries
 Then they direct refresh through the OpenSpec CLI rather than a kit copy
+```
+
+#### Scenario: A kit-owned command wins inside a cli-owned directory
+
+```gherkin
+Given the manifest's per-file kit-owned entry for .opencode/commands/hep-metadex-bootstrap.md
+And the manifest's cli-owned directory entry for .opencode/commands/
+When a reader or tool resolves the command file's ownership class
+Then the per-file kit-owned entry wins as the most specific matching path
+And the CLI-delivered opsx-* files in the same directory stay cli-owned
 ```
 
 ### Requirement: Channel 1 preserved by the release channel
@@ -147,7 +167,7 @@ Then the fix still prints the pasteable clone-and-register command
 ```
 
 ### Requirement: Release consumption documentation
-`docs/usage.md` SHALL document adopter-facing release consumption: fetching the kit bundle for a chosen version, verifying it against SHA256SUMS, and reading the provenance stamp — the documented manual path for installing and syncing kits until command and installer automation takes over.
+`docs/usage.md` SHALL document adopter-facing release consumption: fetching the kit bundle for a chosen version, verifying it against SHA256SUMS, reading the provenance stamp, and minding the KIT-MANIFEST ownership classes — including that the kit's own `hep-metadex-*` command files under `.opencode/commands/` are kit-owned while the CLI-delivered files in the same directory stay cli-owned — the documented manual path for installing and syncing kits until command and installer automation takes over.
 
 #### Scenario: A reader finds the checksum verification step
 
@@ -156,4 +176,12 @@ Given the release consumption section of docs/usage.md
 When an adopter prepares to install a kit release
 Then the documentation shows fetching the bundle for a chosen version
 And verifying it against the release's SHA256SUMS
+```
+
+#### Scenario: A reader finds the per-file ownership exception
+
+```gherkin
+Given the release consumption section of docs/usage.md
+When an adopter reads the ownership-class guidance
+Then it names the kit's own command file as kit-owned inside the cli-owned commands directory
 ```
