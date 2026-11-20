@@ -32,8 +32,8 @@
 
 ## 4. Kit release and completion (hep-metadex, then post-merge)
 
-- [ ] 4.1 Bump `.metadex-kit` to `version: 1.1.0` (`cli: 1.16.0` unchanged) and add the `## [1.1.0] - <date>` `CHANGELOG.md` section — Added: the bootstrap command, the one-liner and its checksummed release asset, the per-file manifest entry — referencing `(#9)` (design D8)
-- [ ] 4.2 Run `openspec validate add-metadex-bootstrap-command --type change` and confirm `valid: true` (the schema's `--strict` guidance is superseded by ADR-0003)
+- [x] 4.1 Bump `.metadex-kit` to `version: 1.1.0` (`cli: 1.16.0` unchanged) and add the `## [1.1.0] - <date>` `CHANGELOG.md` section — Added: the bootstrap command, the one-liner and its checksummed release asset, the per-file manifest entry — referencing `(#9)` (design D8)
+- [x] 4.2 Run `openspec validate add-metadex-bootstrap-command --type change` and confirm `valid: true` (the schema's `--strict` guidance is superseded by ADR-0003)
 - [ ] 4.3 Sweep the change's scenarios against the implemented state: the command file ships in the copy-list and the bundle; the manifest's per-file entry resolves most-specific against the directory entry; the release workflow's gates and three-asset publication are in place; the docs sections exist; channel-1 surfaces untouched — nothing under `.openspec-store/` changes and the registration and doctor guidance keeps its meaning
 - [ ] 4.4 Commit implementation work per BDD zone rules and conventional commits (`(#9)` suffix); cut the apply branch `9-apply-add-metadex-bootstrap-command` from `main` after the planning merge, push, and open the implementation PR per the git discipline
 - [ ] 4.5 First-dogfood acceptance (post-merge): confirm the merge cuts v1.1.0 — tag, bundle with the command file exactly once, the `hep-metadex-bootstrap.md` asset, two-entry SHA256SUMS, changelog-sourced body, declared CLI version — and that the archive gate then passes (`uv run tools/kit_release_gate.py 9`), its first dogfood; if the release run misfires, re-run via `workflow_dispatch`, never a second bump
