@@ -117,11 +117,11 @@ sequenceDiagram
     A->>G: hand the file to the agent in the repository root
     G->>G: prerequisites — openspec --version, store registered
     G->>R: fetch bundle + command asset + SHA256SUMS (to temp, pinned or latest)
-    G->>G: sha256sum -c; read .metadex-kit cli pin; compare with openspec --version
+    G->>G: sha256sum -c, read .metadex-kit cli pin, compare with openspec --version
     G->>X: openspec init (first repository write — checks all passed)
     G->>X: extract bundle (AGENTS.md merged per merge-guidance)
     G->>X: host-conditional .github files (keep, or remove + name equivalents)
-    G->>X: author openspec/config.yaml (references block; brownfield preserved)
+    G->>X: author openspec/config.yaml (references block, brownfield preserved)
     G->>X: iterate openspec doctor to green
     G->>A: report — installed files, versions in play, final doctor output
 ```
