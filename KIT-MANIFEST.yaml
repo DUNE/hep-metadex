@@ -1,7 +1,10 @@
 # KIT-MANIFEST — the kit's bill of materials: every copy-list path mapped
 # to exactly one ownership class, with the refresh route each class
 # prescribes. Shipped in the kit bundle; installs and the update path
-# reconcile by it (ADR-0009).
+# reconcile by it (ADR-0009). Entries may nest: when a per-file entry and
+# a directory entry both match a path, the most specific matching path
+# wins — the kit's own hep-metadex-* command files are kit-owned while
+# the CLI-delivered opsx-* files in the same directory stay cli-owned.
 kit: hep-metadex
 classes:
   cli-owned: refreshed through the OpenSpec CLI (`openspec update`) — never overwritten by a kit copy
@@ -11,6 +14,7 @@ classes:
 paths:
   ".agents/skills/": kit-owned
   ".opencode/commands/": cli-owned
+  ".opencode/commands/hep-metadex-bootstrap.md": kit-owned
   ".opencode/skills/": cli-owned
   ".opencode/agent/": kit-owned
   "openspec/schemas/intent-driven/": kit-owned
