@@ -182,10 +182,11 @@ first feature; an existing repository starts **characterization-first**:
 
 `/opsx-new` and `/opsx-propose` deliberately stop in repositories without an
 OpenSpec root — they are change workflows, and there is nothing to attach a
-change to yet. The bootstrap prompt below is the on-ramp: it gets a
-repository from nothing to a connected root without writing a change.
+change to yet. The paths below are the on-ramp: they get a repository from
+nothing to a connected root without writing a change.
 
-**Machine prerequisites** (verify before pasting the prompt):
+**Machine prerequisites** (verify before starting; the command re-checks
+the CLI and store-registration items itself):
 
 - [ ] OpenSpec CLI installed and pinned to 1.16.0 (`openspec --version`) —
       see [usage.md](usage.md#cli-version-pinning-and-upgrades) for why the
@@ -198,8 +199,34 @@ repository from nothing to a connected root without writing a change.
       then `openspec store register ~/openspec/hep-metadex --id hep-metadex`
       (`openspec store list` must show it).
 
-**Bootstrap prompt** (valid for greenfield and brownfield repositories
-alike — paste it to your agent in the repository root):
+**Primary path — the `/hep-metadex-bootstrap` command.** The bootstrap
+ships as a kit command, and an uninitialized repository has no kit yet —
+the chicken-and-egg the one-liner resolves. Fetch the command file from
+the latest kit release and hand it to your agent (run in the repository
+root):
+
+```bash
+curl -fsSL -o hep-metadex-bootstrap.md https://github.com/DUNE/hep-metadex/releases/latest/download/hep-metadex-bootstrap.md
+```
+
+Then ask your agent to follow the fetched file (in OpenCode: "Follow the
+instructions in hep-metadex-bootstrap.md"). The command automates the
+documented prompt below end to end, for greenfield and brownfield
+repositories alike: it verifies the prerequisites — including the OpenSpec
+CLI version against the release's declared pin, read from the verified
+bundle itself — fetches the release's bundle, command asset, and SHA256SUMS
+and verifies them before extracting, handles the host-conditional GitHub
+files, writes the config with the store reference, and iterates
+`openspec doctor` to green. It installs the latest release by default, or a
+pinned one when you name a version (`/hep-metadex-bootstrap 1.1.0`). The
+one-liner's own fetch rides HTTPS; the command re-fetches and verifies
+every artifact it consumes against the release's SHA256SUMS.
+
+**Fallback — the documented prompt.** The prompt below is the
+specification the command automates: it stays in full as the manual path
+and the contract the command must not drift from (valid for greenfield and
+brownfield repositories alike — paste it to your agent in the repository
+root):
 
 ```text
 Bootstrap this repository onto the hep-metadex OpenSpec workflow.
@@ -212,13 +239,14 @@ First verify the prerequisites and stop with a clear report if any are missing:
 Then bootstrap this repository:
 1. Run `openspec init` for the agent tools this repository uses.
 2. Install the workflow scaffolding from the latest hep-metadex kit release:
-   fetch the bundle and its SHA256SUMS from
-   https://github.com/DUNE/hep-metadex/releases/latest, verify with
-   `sha256sum -c`, and extract in the repository root — the bundle lays the
-   kit out at its natural paths, including the `.metadex-kit` provenance
-   stamp and `KIT-MANIFEST.yaml`. If this repository already has an
-   `AGENTS.md`, merge the kit's pointers into it rather than overwriting —
-   the manifest marks it merge-guidance.
+   fetch SHA256SUMS and the assets it lists — the bundle and the
+   hep-metadex-bootstrap.md command file — from
+   https://github.com/DUNE/hep-metadex/releases/latest, verify them all
+   with `sha256sum -c`, and extract the bundle in the repository root —
+   the bundle lays the kit out at its natural paths, including the
+   `.metadex-kit` provenance stamp and `KIT-MANIFEST.yaml`. If this
+   repository already has an `AGENTS.md`, merge the kit's pointers into it
+   rather than overwriting — the manifest marks it merge-guidance.
 3. Handle the host-conditional GitHub files — spec-validation CI and the
    issue form — conditional on this repository's host.
    - GitHub-hosted: confirm the extraction placed

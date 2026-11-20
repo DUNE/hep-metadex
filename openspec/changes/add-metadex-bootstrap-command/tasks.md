@@ -23,7 +23,7 @@
 
 ## 3. Documentation and glossary (hep-metadex)
 
-- [ ] 3.1 `docs/setup.md`, agent-assisted bootstrap section (design D7): document the one-liner — fetch `hep-metadex-bootstrap.md` from `releases/latest`, hand it to the agent — as the primary path; keep the machine-prerequisites checklist; reframe the documented prompt as the fallback and the specification; the prompt's five steps keep their order and substance
+- [x] 3.1 `docs/setup.md`, agent-assisted bootstrap section (design D7): document the one-liner — fetch `hep-metadex-bootstrap.md` from `releases/latest`, hand it to the agent — as the primary path; keep the machine-prerequisites checklist; reframe the documented prompt as the fallback and the specification; the prompt's five steps keep their order and substance
 - [ ] 3.2 Generalize the manual fetch detail (design D3) in the setup.md prompt's kit step, the README quick-start step 4, and `docs/usage.md`'s consumption section: fetch the assets SHA256SUMS lists (bundle and command file), one `sha256sum -c`, then extract the bundle; extend the README quick-start's pointer sentence to name the command (design D7)
 - [ ] 3.3 `docs/usage.md` ownership guidance: add the per-file kit-owned exception — the kit's `hep-metadex-*` command files are kit-owned while CLI-delivered files in the same directory stay cli-owned, most-specific matching path wins (design D6)
 - [ ] 3.4 `docs/maintainer.md`: add the divergence-manifest row for `.opencode/commands/hep-metadex-bootstrap.md` (the kit's first kit-owned command, inside the cli-owned commands directory; the template ships none) and extend the release-workflow row's description to the published command asset (design D6)
