@@ -17,9 +17,9 @@
 ## 2. Manifest and release workflow (hep-metadex)
 
 - [x] 2.1 Extend `KIT-MANIFEST.yaml`: add the per-file entry `".opencode/commands/hep-metadex-bootstrap.md": kit-owned` and state the most-specific-matching-path precedence in the header comment (design D4, D6)
-- [ ] 2.2 Extend `.github/workflows/release.yml` publication (design D3): publish the command file as the flat asset `hep-metadex-bootstrap.md` derived from the same checkout file the bundle carries; generate SHA256SUMS over both assets; attach bundle, SHA256SUMS, and the command asset to `gh release create` — no new Actions, the `@v7` checkout pin per ADR-0011
-- [ ] 2.3 Implement nested-entry dedupe in bundle assembly (design D4): when deriving the tar member list from the manifest's `paths:` block, drop any entry nested inside another entry, so the bundle's member set stays the pre-change set plus the new command file exactly once
-- [ ] 2.4 Verify against scratch states: the dedupe drops the nested per-file entry but keeps standalone entries; bundle assembly over the current tree contains the command file exactly once; a scratch two-asset SHA256SUMS passes `sha256sum -c` with both assets present and fails when either is altered (discard scratch artifacts afterward)
+- [x] 2.2 Extend `.github/workflows/release.yml` publication (design D3): publish the command file as the flat asset `hep-metadex-bootstrap.md` derived from the same checkout file the bundle carries; generate SHA256SUMS over both assets; attach bundle, SHA256SUMS, and the command asset to `gh release create` — no new Actions, the `@v7` checkout pin per ADR-0011
+- [x] 2.3 Implement nested-entry dedupe in bundle assembly (design D4): when deriving the tar member list from the manifest's `paths:` block, drop any entry nested inside another entry, so the bundle's member set stays the pre-change set plus the new command file exactly once
+- [x] 2.4 Verify against scratch states: the dedupe drops the nested per-file entry but keeps standalone entries; bundle assembly over the current tree contains the command file exactly once; a scratch two-asset SHA256SUMS passes `sha256sum -c` with both assets present and fails when either is altered (discard scratch artifacts afterward)
 
 ## 3. Documentation and glossary (hep-metadex)
 
