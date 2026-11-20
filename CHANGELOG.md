@@ -14,6 +14,13 @@ There is no Unreleased section: a kit-altering change bumps the version and
 lands its changelog entry in the same change, and the release cuts when
 that change merges to `main`.
 
+## [1.1.0] - 2026-11-20
+
+### Added
+- The `/hep-metadex-bootstrap` command — the kit's first kit-owned command, automating the documented agent-assisted bootstrap prompt end to end: prerequisites check against the release's declared CLI pin, `openspec init`, checksum-verified kit install from a versioned release (latest by default, pin-able), host-conditional GitHub files, config authoring with the store reference, doctor to green (#9).
+- The bootstrap one-liner: each release now publishes the command file as a standalone, checksummed asset (`hep-metadex-bootstrap.md`) covered by `SHA256SUMS`, fetched pre-scaffolding from `releases/latest` and handed to the agent (#9).
+- A per-file `KIT-MANIFEST.yaml` entry marking the command kit-owned inside the CLI-owned commands directory, with most-specific-matching-path precedence; bundle assembly derives from the manifest and drops entries nested inside another entry (#9).
+
 ## [1.0.1] - 2026-11-19
 
 ### Fixed
@@ -30,3 +37,4 @@ that change merges to `main`.
 
 [1.0.0]: https://github.com/DUNE/hep-metadex/releases/tag/v1.0.0
 [1.0.1]: https://github.com/DUNE/hep-metadex/releases/tag/v1.0.1
+[1.1.0]: https://github.com/DUNE/hep-metadex/releases/tag/v1.1.0

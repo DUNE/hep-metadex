@@ -31,8 +31,10 @@ Takes a fresh experiment repository from nothing to a connected one:
 scaffolding installed, store registered, reference declared, doctor green,
 and spec-validation CI and the issue form in place per your host. The same
 steps were verified end to end on [dune-metadex](https://github.com/DUNE/dune-metadex); the full
-explanation, an adopting-into-an-existing-repository variant, and an
-agent-assisted bootstrap prompt live in [docs/setup.md](docs/setup.md).
+explanation, an adopting-into-an-existing-repository variant, and the
+agent-assisted bootstrap — the `/hep-metadex-bootstrap` command, fetched by
+a one-liner from the latest kit release — live in
+[docs/setup.md](docs/setup.md).
 
 1. **Install the OpenSpec CLI (pinned to 1.16.0):**
 
@@ -55,15 +57,17 @@ agent-assisted bootstrap prompt live in [docs/setup.md](docs/setup.md).
    ```
 
 4. **Install the workflow scaffolding from a kit release.** Fetch the
-   latest release's bundle and checksums, verify, and extract into your
-   repository — the bundle lays the kit out at its natural paths:
+   latest release's SHA256SUMS and the assets it lists — the bundle and the
+   `hep-metadex-bootstrap.md` command file — verify, and extract the bundle
+   into your repository — the bundle lays the kit out at its natural paths:
 
    ```bash
    curl -fsSL -o SHA256SUMS https://github.com/DUNE/hep-metadex/releases/latest/download/SHA256SUMS
-   bundle="$(awk '{print $2}' SHA256SUMS)"
-   curl -fsSL -o "$bundle" "https://github.com/DUNE/hep-metadex/releases/latest/download/$bundle"
+   for f in $(awk '{print $2}' SHA256SUMS); do
+     curl -fsSL -o "$f" "https://github.com/DUNE/hep-metadex/releases/latest/download/$f"
+   done
    sha256sum -c SHA256SUMS
-   tar -xzf "$bundle"
+   tar -xzf "$(awk 'NR==1 {print $2}' SHA256SUMS)"
    ```
 
    The installed kit is `.agents/skills/`, `.opencode/` (commands, skills,

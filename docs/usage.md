@@ -107,20 +107,23 @@ The store checkout you registered serves specs (channel 1); the kit comes
 from releases (channel 2) — a decoupling that keeps specs fresh while the
 kit stays pinnable.
 
-Install or update the kit in your repository by fetching a release's bundle
-and verifying it against the published checksums:
+Install or update the kit in your repository by fetching a release's
+assets and verifying them against the published checksums:
 
 ```bash
 # latest release
 curl -fsSL -o SHA256SUMS https://github.com/DUNE/hep-metadex/releases/latest/download/SHA256SUMS
-bundle="$(awk '{print $2}' SHA256SUMS)"
-curl -fsSL -o "$bundle" "https://github.com/DUNE/hep-metadex/releases/latest/download/$bundle"
+for f in $(awk '{print $2}' SHA256SUMS); do
+  curl -fsSL -o "$f" "https://github.com/DUNE/hep-metadex/releases/latest/download/$f"
+done
 sha256sum -c SHA256SUMS
-tar -xzf "$bundle"
+tar -xzf "$(awk 'NR==1 {print $2}' SHA256SUMS)"
 ```
 
-For a pinned release, fetch `metadex-kit-<version>.tar.gz` and its
-`SHA256SUMS` from that release's page instead of the `latest` alias.
+Each release carries the bundle, the `hep-metadex-bootstrap.md` command
+asset, and `SHA256SUMS` covering both — fetch what the checksums list and
+verify it all. For a pinned release, fetch that release's assets and its
+`SHA256SUMS` from the release's page instead of the `latest` alias.
 
 - **Verify before extracting** — `sha256sum -c` must pass; the checksums are
   published with the release.
@@ -130,9 +133,12 @@ For a pinned release, fetch `metadex-kit-<version>.tar.gz` and its
 - **Watch what changed.** Each release's body is its
   [changelog](../CHANGELOG.md) section, and the changelog itself records
   every kit release with its change issues.
-- **Mind the ownership classes.** `KIT-MANIFEST.yaml` maps every kit path to
-  its class: CLI-owned paths (`.opencode/commands/`, `.opencode/skills/`)
-  refresh through `openspec update`, never a kit copy; `AGENTS.md` is
+- **Mind the ownership classes.** `KIT-MANIFEST.yaml` maps every kit path
+  to its class, the most specific matching path winning when entries nest:
+  the CLI-owned directories (`.opencode/commands/`, `.opencode/skills/`)
+  refresh through `openspec update`, never a kit copy — except the kit's
+  own `hep-metadex-*` command files inside `.opencode/commands/`, which
+  are kit-owned per-file entries; `AGENTS.md` is
   merge-guidance; `openspec/config.yaml` is yours and never touched.
 
 ## CLI Version Pinning and Upgrades

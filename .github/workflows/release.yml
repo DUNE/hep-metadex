@@ -112,16 +112,49 @@ jobs:
           # copy-list source — this workflow, the CI reminder, and the
           # archive gate all read it — so the tar arguments are derived
           # from it: quoted keys, extracted in manifest order (today's
-          # inline order), keeping the bundle byte-identical.
+          # inline order), keeping the bundle byte-identical. An entry
+          # nested inside another entry is covered by its covering
+          # directory entry and dropped at derivation: passing both to
+          # tar would store the file twice (GNU tar files the second
+          # occurrence as a hardlink member — a portability hazard for a
+          # checksum-distributed artifact).
           mapfile -t kit_paths < <(awk '
             /^paths:/ { in_paths = 1; next }
             in_paths && /^[^ #]/ { exit }
-            in_paths && /^  "/ { sub(/^  "/, ""); sub(/".*/, ""); print }
+            in_paths && /^  "/ {
+              sub(/^  "/, ""); sub(/".*/, "")
+              entries[++n] = $0
+            }
+            END {
+              # Manifest order, dropping per-file entries nested inside
+              # another entry: the covering directory entry already
+              # carries the file. Directory entries are never dropped;
+              # a standalone per-file entry always ships.
+              for (i = 1; i <= n; i++) {
+                entry = entries[i]
+                covered = 0
+                if (entry !~ /\/$/) {
+                  for (j = 1; j <= n; j++) {
+                    if (j != i && entries[j] ~ /\/$/ && index(entry, entries[j]) == 1) {
+                      covered = 1
+                      break
+                    }
+                  }
+                }
+                if (!covered) print entry
+              }
+            }
           ' KIT-MANIFEST.yaml)
           tar -czf "${RUNNER_TEMP:-/tmp}/${bundle}" "${kit_paths[@]}"
+
+          # The command ships as a second, standalone release asset for
+          # the pre-scaffolding one-liner: the copy comes from the same
+          # checkout file the bundle carries, so the asset and the
+          # bundle member are one source of truth — the same bytes.
+          cp .opencode/commands/hep-metadex-bootstrap.md "${RUNNER_TEMP:-/tmp}/hep-metadex-bootstrap.md"
           (
             cd "${RUNNER_TEMP:-/tmp}"
-            sha256sum "${bundle}" > SHA256SUMS
+            sha256sum "${bundle}" "hep-metadex-bootstrap.md" > SHA256SUMS
           )
 
           {
@@ -132,7 +165,9 @@ jobs:
           } > "${RUNNER_TEMP:-/tmp}/release-body.md"
 
           gh release create "${tag}" \
-            "${RUNNER_TEMP:-/tmp}/${bundle}" "${RUNNER_TEMP:-/tmp}/SHA256SUMS" \
+            "${RUNNER_TEMP:-/tmp}/${bundle}" \
+            "${RUNNER_TEMP:-/tmp}/hep-metadex-bootstrap.md" \
+            "${RUNNER_TEMP:-/tmp}/SHA256SUMS" \
             --target "$GITHUB_SHA" \
             --title "Kit ${tag}" \
             --notes-file "${RUNNER_TEMP:-/tmp}/release-body.md"
