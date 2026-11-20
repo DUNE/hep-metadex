@@ -5,6 +5,7 @@ Run from the repository root:
     uv run python -m unittest discover -s tools -p "*_test.py"
 """
 
+import copy
 import importlib.util
 import sys
 import tempfile
@@ -198,6 +199,92 @@ class DeriveConfigTest(unittest.TestCase):
                 "strict": True,
             }
         }
+        self.assertEqual(derived, expected)
+
+    def test_round_trips_theme_table_and_sectioned_nav_unchanged(self):
+        # The committed zensical.toml now carries a [project.theme] table and
+        # a sectioned nav; both must survive derivation untouched.
+        config = {
+            "project": {
+                "site_name": "hep-metadex",
+                "site_url": "https://dune.github.io/hep-metadex/",
+                "repo_url": REPO_URL,
+                "docs_dir": "docs",
+                "site_dir": "site",
+                "strict": True,
+                "theme": {
+                    "favicon": "https://avatars.githubusercontent.com/u/7131646?s=200&v=4",
+                    "logo": "https://avatars.githubusercontent.com/u/7131646?s=200&v=4",
+                    "features": [
+                        "navigation.footer",
+                        "navigation.instant",
+                        "navigation.instant.prefetch",
+                        "navigation.instant.preview",
+                        "navigation.instant.progress",
+                        "navigation.tracking",
+                        "navigation.sections",
+                        "navigation.path",
+                        "navigation.expand",
+                        "navigation.prune",
+                        "toc.follow",
+                        "navigation.top",
+                    ],
+                    "palette": [
+                        {
+                            "media": "(prefers-color-scheme)",
+                            "toggle": {
+                                "icon": "material/brightness-auto",
+                                "name": "Switch to light mode",
+                            },
+                        },
+                        {
+                            "media": "(prefers-color-scheme: light)",
+                            "scheme": "default",
+                            "primary": "indigo",
+                            "accent": "light-blue",
+                            "toggle": {
+                                "icon": "material/brightness-7",
+                                "name": "Switch to dark mode",
+                            },
+                        },
+                        {
+                            "media": "(prefers-color-scheme: dark)",
+                            "scheme": "slate",
+                            "primary": "indigo",
+                            "accent": "light-blue",
+                            "toggle": {
+                                "icon": "material/brightness-4",
+                                "name": "Switch to light mode",
+                            },
+                        },
+                    ],
+                },
+                "nav": [
+                    {"Home": "index.md"},
+                    {
+                        "Getting Started": [
+                            {"Setup": "setup.md"},
+                            {"Usage": "usage.md"},
+                        ]
+                    },
+                    {
+                        "Governance": [
+                            {"Governance": "governance.md"},
+                            {"HSF Affiliation": "hsf-affiliation.md"},
+                        ]
+                    },
+                    {
+                        "Maintainers": [
+                            {"Maintainer Guide": "maintainer.md"},
+                            {"Intent Prompt Guidelines": "intent-prompt-guidelines.md"},
+                        ]
+                    },
+                ],
+            }
+        }
+        derived = tomllib.loads(docs_site.derive_config_text(config))
+        expected = copy.deepcopy(config)
+        expected["project"]["docs_dir"] = ".site-src"
         self.assertEqual(derived, expected)
 
     def test_emits_theme_as_a_nested_project_table(self):

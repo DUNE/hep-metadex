@@ -21,9 +21,9 @@
 
 ## 2. Serializer round-trip guard — red first (code zone)
 
-- [ ] 2.1 Via the senior-dev subagent: add a failing round-trip case to `tools/docs_site_test.py` — a committed-style config carrying a nested `[project.theme]` table (palette list of inline dicts with `media`/`scheme`/`primary`/`accent`/`toggle`, features string list, `favicon`/`logo` URLs) and a sectioned `nav` (dict-with-list entries) must survive `derive_config_text` → `tomllib.load` with every setting identical except the derived `docs_dir` (design D9; red before green)
-- [ ] 2.2 Confirm the existing serializer passes the new case unmodified; if it fails, fix the serializer — not the test — and record the correction against design D1's round-trip claim (design D9)
-- [ ] 2.3 Commit as `test(docs): guard theme and sectioned-nav round-trip through the staging config (#47)`
+- [x] 2.1 Via the senior-dev subagent: add a failing round-trip case to `tools/docs_site_test.py` — a committed-style config carrying a nested `[project.theme]` table (palette list of inline dicts with `media`/`scheme`/`primary`/`accent`/`toggle`, features string list, `favicon`/`logo` URLs) and a sectioned `nav` (dict-with-list entries) must survive `derive_config_text` → `tomllib.load` with every setting identical except the derived `docs_dir` (design D9; red before green) — *apply note: this is a regression guard for existing behavior; design D9 predicted (correctly) that it passes against the current serializer on first run*
+- [x] 2.2 Confirm the existing serializer passes the new case unmodified; if it fails, fix the serializer — not the test — and record the correction against design D1's round-trip claim (design D9) — *apply note: `tools/docs_site.py` untouched; `docs_site_test.py` 23/23 green; one pre-existing, unrelated failure in `kit_release_gate_test.py` reproduces at HEAD (manifest/test drift from #9) — out of scope, flagged for a follow-up issue*
+- [x] 2.3 Commit as `test(docs): guard theme and sectioned-nav round-trip through the staging config (#47)`
 
 ## 3. Theme, branding, and sectioned navigation configuration (code zone)
 
